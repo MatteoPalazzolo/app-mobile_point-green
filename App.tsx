@@ -5,14 +5,13 @@ import Navigator from './app/navigation/Navigator';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 // SCREENS
-import SplashScreen from "./app/screens/SplashScreen";
 import MapScreen from "./app/screens/MapScreen";
 import ShopScreen from "./app/screens/ShopScreen";
 import FeedScreen from "./app/screens/FeedScreen";
 import ProfileScreen from "./app/screens/ProfileScreen";
 // CUSTOM
 import { t_ColorTheme } from "./app/constants/Colors";
-import { t_Vector2, t_Screens } from "./app/constants/Types";
+import { t_Vector2, t_Screen } from "./app/constants/Types";
 
 
 export const ThemeContext = createContext<t_ColorTheme>("light");
@@ -37,7 +36,7 @@ export default function App() {
   if (!fontsLoaded)
     return <AppLoading />
 
-  const screens: t_Screens = [
+  const screens: t_Screen[] = [
     { label: "Home", icon: 5, child: <MapScreen />, position: { x: 10, y: 10 } },
     { label: "Shop", icon: 5, child: <ShopScreen />, position: { x: 10, y: 10 } },
     { label: "Feed", icon: 5, child: <FeedScreen />, position: { x: 10, y: 10 } },

@@ -2,7 +2,7 @@
 
 // IMPORT
 import React, { FC, useContext, useState } from 'react';
-import MapView, { Marker, MapTypes } from 'react-native-maps';
+import MapView, { Marker, MapTypes, PROVIDER_GOOGLE } from 'react-native-maps';
 import { View, Switch, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 // COMPONENTS
@@ -10,6 +10,7 @@ import CoinCounter from '../components/CoinCounter';
 // CUSTOM
 import { palette, t_ColorTheme } from "../constants/Colors";
 import { ThemeContext } from '../../App';
+import { darkMode } from '../constants/MapStyles';
 
 type t_region = { latitude: number, longitude: number, latitudeDelta: number, longitudeDelta: number, };
 const region: t_region = {
@@ -47,8 +48,10 @@ export default function MapScreen({ }: i_MapScreen) {
       <MapView
         style={styles.map}
         region={region}
-        userInterfaceStyle={colorTheme}
-        mapType={mapType}>
+        mapType={mapType}
+        /*userInterfaceStyle={colorTheme}*/
+        customMapStyle={colorTheme === "light" ? undefined : darkMode}
+        provider={PROVIDER_GOOGLE}>
 
         {markers.map((m, i) => (<Marker title={m.title} description={m.description} coordinate={m.coordinate} key={i} />))}
 

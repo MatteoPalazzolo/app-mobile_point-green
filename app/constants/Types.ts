@@ -9,9 +9,9 @@ export type t_Vector2 = {
   y: number
 };
 
-export type t_Screens = {
+export type t_Screen = {
   label: string,
   icon: JSX.Element | number,
   child: JSX.Element,
   position: t_Vector2
-}[];
+};
