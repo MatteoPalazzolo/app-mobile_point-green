@@ -1,3 +1,22 @@
+export const lightMode = [
+  {
+    "featureType": "landscape.natural",
+    "stylers": [
+      {
+        "visibility": "on"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "stylers": [
+      {
+        "visibility": "on"
+      }
+    ]
+  }
+];
+
 export const darkMode = [
   {
     "elementType": "geometry",
@@ -184,4 +203,4 @@ export const darkMode = [
       }
     ]
   }
-]
+];

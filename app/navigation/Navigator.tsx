@@ -7,11 +7,11 @@ import { Ionicons } from '@expo/vector-icons';
 // CUSTOM
 import { ThemeContext } from "../../App";
 import { palette, t_ColorTheme } from "../constants/Colors";
-import { /*RootStackParamList*/ t_Screens } from "../constants/Types";
+import { /*RootStackParamList*/ t_Screen } from "../constants/Types";
 
 const Stack = createNativeStackNavigator();
 
-interface i_Navigation { screens: t_Screens }
+interface i_Navigation { screens: t_Screen[] }
 export default function Navigation({ screens }: i_Navigation): JSX.Element {
 
   const colorTheme: t_ColorTheme = useContext(ThemeContext);

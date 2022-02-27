@@ -3,14 +3,14 @@
 // IMPORT
 import React, { FC, useContext, useState } from 'react';
 import MapView, { Marker, MapTypes, PROVIDER_GOOGLE } from 'react-native-maps';
-import { View, Switch, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
+import { View, Switch, StyleSheet, Text } from 'react-native';
 // COMPONENTS
 import CoinCounter from '../components/CoinCounter';
+import NavRadialMenu from '../components/NavRadialMenu';
 // CUSTOM
 import { palette, t_ColorTheme } from "../constants/Colors";
 import { ThemeContext } from '../../App';
-import { darkMode } from '../constants/MapStyles';
+import { darkMode, lightMode } from '../constants/MapStyles';
 
 type t_region = { latitude: number, longitude: number, latitudeDelta: number, longitudeDelta: number, };
 const region: t_region = {
@@ -40,7 +40,7 @@ export default function MapScreen({ }: i_MapScreen) {
   const styles = getStyle(colorTheme);
 
 
-  return (
+  return (<>
     <View style={styles.container}>
 
       <CoinCounter style={styles.coinCounter} />
@@ -50,7 +50,7 @@ export default function MapScreen({ }: i_MapScreen) {
         region={region}
         mapType={mapType}
         /*userInterfaceStyle={colorTheme}*/
-        customMapStyle={colorTheme === "light" ? undefined : darkMode}
+        customMapStyle={colorTheme === "light" ? lightMode : darkMode}
         provider={PROVIDER_GOOGLE}>
 
         {markers.map((m, i) => (<Marker title={m.title} description={m.description} coordinate={m.coordinate} key={i} />))}
@@ -68,14 +68,9 @@ export default function MapScreen({ }: i_MapScreen) {
         />
       </View>
 
-      <TouchableOpacity
-        onPress={() => alert("hei")}
-        style={styles.menuButton}
-        activeOpacity={0.8}>
-        <FontAwesome5 style={styles.plantIcon} name="seedling" size={36} color={palette[colorTheme].light} />
-      </TouchableOpacity>
-
     </View>
+    <NavRadialMenu />
+  </>
   );
 }
 
@@ -100,21 +95,6 @@ const getStyle = (colorTheme: t_ColorTheme) => (
     },
     textColor: {
       color: palette[colorTheme].text,
-    },
-    menuButton: {
-      position: "absolute",
-      bottom: 10,
-      alignSelf: "center",
-      borderRadius: 100,
-      width: 55,
-      height: 55,
-      backgroundColor: palette[colorTheme].accent,
-      justifyContent: "center",
-      alignItems: "center"
-    },
-    plantIcon: {
-      position: "relative",
-      bottom: -5,
     },
     coinCounter: {
       position: "absolute",
