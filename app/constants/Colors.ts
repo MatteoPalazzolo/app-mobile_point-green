@@ -4,8 +4,8 @@ export type t_ColorTheme = "dark" | "light";
 export const palette = {
   light: {
     dominant: "#7FD15C",
-    complementary: "#577B98",
-    accent: "#929fa3",
+    complementary: "#5ab6d3",
+    accent: "#dd38b8",
     light: "#eee",
     dark: "#333",
     success: "#0f0",
@@ -14,9 +14,9 @@ export const palette = {
     text: "#333"
   },
   dark: {
-    dominant: "#577B98",
+    dominant: "#5ab6d3",
     complementary: "#7FD15C",
-    accent: "#1f272a",
+    accent: "#dd38b8",
     light: "#333",
     dark: "#eee",
     success: "#0f0",

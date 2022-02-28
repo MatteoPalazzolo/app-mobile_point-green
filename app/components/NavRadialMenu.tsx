@@ -1,6 +1,6 @@
 // REACT
-import React, { useContext } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 // CUSTOM
 import { ThemeContext } from '../../App';
@@ -11,7 +11,8 @@ import { t_NavButton } from "../constants/Types";
 interface i_NavRadialMenu { navButtons: t_NavButton[], radius: number }
 export default function NavRadialMenu({ navButtons, radius }: i_NavRadialMenu) {
 
-  radius = .1;
+  /* radius = useState(new Animated.Value(120))[0]; */
+  radius = 120;
   navButtons = [
     { name: "ciao", icon: 2 },
     { name: "hello", icon: 4 },
@@ -22,14 +23,17 @@ export default function NavRadialMenu({ navButtons, radius }: i_NavRadialMenu) {
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const styles = getStyle(colorTheme);
 
+  /****************** 
+   * RENDER 
+  ******************/
   return (
     <View style={styles.container}>
 
       <TouchableOpacity
         onPress={() => alert("hei")}
-        style={[styles.container, styles.menuButton]}
+        style={[styles.buttonTransform, styles.menuButton]}
         activeOpacity={0.9}>
-        <FontAwesome5 style={styles.plantIcon} name="seedling" size={36} color={palette[colorTheme].light} />
+        <FontAwesome5 style={styles.plantIcon} name="seedling" size={36} color={palette[colorTheme].dominant} />
       </TouchableOpacity>
 
       {navButtons.map((b, i) => {
@@ -41,38 +45,44 @@ export default function NavRadialMenu({ navButtons, radius }: i_NavRadialMenu) {
         console.log("deg: ", stepRad * (180 / Math.PI));
         console.log("x: ", x, "y: ", y);
         */
-        const transform = [{ translateX: -x }, { translateY: -y }];
-        return <View style={[styles.navButton, { transform }]} key={i} />
+        const transform = [{ translateX: x }, { translateY: -y }];
+        return <View style={[styles.buttonTransform, styles.navButton, { transform }]} key={i} />
       })}
 
     </View>
   );
 }
 
+/****************** 
+ * STYLE 
+******************/
 const getStyle = (colorTheme: t_ColorTheme) => (
   StyleSheet.create({
     container: {
       position: "absolute",
       alignSelf: "center",
-      bottom: 10,
+      alignItems: "center", justifyContent: "center",
+      bottom: 50,
     },
     text: {
       textAlign: "center"
     },
-    navButton: {
-      backgroundColor: "red",
+    buttonTransform: {
       width: 50,
       height: 50,
-      borderRadius: 100,
       position: "absolute",
+      bottom: 0,
+    },
+    navButton: {
+      borderRadius: 100,
+      backgroundColor: palette[colorTheme].complementary,
     },
     menuButton: {
-      borderRadius: 100,
-      width: 55,
-      height: 55,
-      backgroundColor: palette[colorTheme].accent,
+      alignItems: "center",
       justifyContent: "center",
-      alignItems: "center"
+
+      borderRadius: 100,
+      backgroundColor: palette[colorTheme].accent,
     },
     plantIcon: {
       position: "relative",
