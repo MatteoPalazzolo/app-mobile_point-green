@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from '@expo/vector-icons';
+
 // CUSTOM
 import { ThemeContext } from "../../App";
 import { palette, t_ColorTheme } from "../constants/Colors";

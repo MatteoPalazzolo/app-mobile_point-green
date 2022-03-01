@@ -69,7 +69,7 @@ export default function MapScreen({ }: i_MapScreen) {
       </View>
 
     </View>
-    <NavRadialMenu />
+    <NavRadialMenu radius={120} navButtons={[]} />
   </>
   );
 }

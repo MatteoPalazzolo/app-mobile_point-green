@@ -37,10 +37,10 @@ export default function App() {
     return <AppLoading />
 
   const screens: t_Screen[] = [
-    { label: "Home", icon: 5, child: <MapScreen />, position: { x: 10, y: 10 } },
-    { label: "Shop", icon: 5, child: <ShopScreen />, position: { x: 10, y: 10 } },
-    { label: "Feed", icon: 5, child: <FeedScreen />, position: { x: 10, y: 10 } },
-    { label: "Profile", icon: 5, child: <ProfileScreen />, position: { x: 10, y: 10 } },
+    { label: "Home", icon: 5, child: <MapScreen /> },
+    { label: "Shop", icon: 5, child: <ShopScreen /> },
+    { label: "Feed", icon: 5, child: <FeedScreen /> },
+    { label: "Profile", icon: 5, child: <ProfileScreen /> },
   ];
 
   return (

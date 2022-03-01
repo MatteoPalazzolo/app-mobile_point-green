@@ -13,7 +13,6 @@ export type t_Screen = {
   label: string,
   icon: JSX.Element | number,
   child: JSX.Element,
-  position: t_Vector2
 };
 
 export type t_NavButton = {
