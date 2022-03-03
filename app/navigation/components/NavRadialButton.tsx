@@ -3,16 +3,19 @@ import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated, Easing } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 // CUSTOM
-import { ThemeContext } from '../../App';
-import { palette, t_ColorTheme } from "../constants/Colors";
-import { t_NavButton, t_Vector2 } from "../constants/Types";
+import { ThemeContext } from '../../../App';
+import { palette, t_ColorTheme } from "../../constants/Colors";
+import { t_NavButton, t_Vector2 } from "../../constants/Types";
 
 
-interface i_NavRadialButton { triggerAnimList: any[], targetCoords: t_Vector2, radius: number, animDuration?: number, style?: any }
-export default function NavRadialButton({ triggerAnimList, targetCoords, radius, animDuration = 1000, style = {} }: i_NavRadialButton) {
+interface i_NavRadialButton {
+  funcRegister: Function[],
+  animationOptions: { endPos: t_Vector2, radius: number, openTime: number }
+  style?: any
+}
+export default function NavRadialButton({ funcRegister, animationOptions, style = {} }: i_NavRadialButton) {
 
-  radius = 120;
-
+  const { endPos, radius, openTime } = animationOptions;
 
   /****************** 
    * CONSTANTS 
@@ -32,14 +35,14 @@ export default function NavRadialButton({ triggerAnimList, targetCoords, radius,
       if (open) {
         Animated.parallel([
           Animated.timing(posX, {
-            toValue: targetCoords.x,
-            duration: animDuration,
+            toValue: endPos.x,
+            duration: openTime,
             easing: Easing.elastic(1),
             useNativeDriver: true,
           }),
           Animated.timing(posY, {
-            toValue: targetCoords.y,
-            duration: animDuration,
+            toValue: endPos.y,
+            duration: openTime,
             easing: Easing.elastic(1),
             useNativeDriver: true,
           })
@@ -48,20 +51,20 @@ export default function NavRadialButton({ triggerAnimList, targetCoords, radius,
         Animated.parallel([
           Animated.timing(posX, {
             toValue: 0,
-            duration: animDuration * .8,
+            duration: openTime * .8,
             easing: Easing.back(1),
             useNativeDriver: true,
           }),
           Animated.timing(posY, {
             toValue: 0,
-            duration: animDuration * .8,
+            duration: openTime * .8,
             easing: Easing.back(1),
             useNativeDriver: true,
           })
         ]).start();
       }
     }
-    triggerAnimList.push(startAnimation);
+    funcRegister.push(startAnimation);
   }, []);
 
 

@@ -6,7 +6,7 @@ import MapView, { Marker, MapTypes, PROVIDER_GOOGLE } from 'react-native-maps';
 import { View, Switch, StyleSheet, Text } from 'react-native';
 // COMPONENTS
 import CoinCounter from '../components/CoinCounter';
-import NavRadialMenu from '../components/NavRadialMenu';
+import NavRadialMenu from '../navigation/components/NavRadialMenu';
 // CUSTOM
 import { palette, t_ColorTheme } from "../constants/Colors";
 import { ThemeContext } from '../../App';
@@ -26,8 +26,8 @@ const markers: t_marker = [
   { title: "New Spot 2", description: "new for real", coordinate: { latitude: 45.24337, longitude: 11.27919 } },
 ];
 
-interface i_MapScreen { }
-export default function MapScreen({ }: i_MapScreen) {
+interface i_MapScreen { navigation?: any }
+export default function MapScreen({ navigation }: i_MapScreen) {
 
   // MAP TYPE
   const [mapType, setMapType] = useState<MapTypes>("standard");
@@ -39,38 +39,39 @@ export default function MapScreen({ }: i_MapScreen) {
   var colorTheme: t_ColorTheme = useContext(ThemeContext);
   const styles = getStyle(colorTheme);
 
+  return (
+    <>
+      <View style={styles.container}>
 
-  return (<>
-    <View style={styles.container}>
+        <CoinCounter style={styles.coinCounter} />
 
-      <CoinCounter style={styles.coinCounter} />
+        <MapView
+          style={styles.map}
+          region={region}
+          mapType={mapType}
+          /*userInterfaceStyle={colorTheme}*/
+          customMapStyle={colorTheme === "light" ? lightMode : darkMode}
+          provider={PROVIDER_GOOGLE}>
 
-      <MapView
-        style={styles.map}
-        region={region}
-        mapType={mapType}
-        /*userInterfaceStyle={colorTheme}*/
-        customMapStyle={colorTheme === "light" ? lightMode : darkMode}
-        provider={PROVIDER_GOOGLE}>
+          {markers.map((m, i) => (<Marker title={m.title} description={m.description} coordinate={m.coordinate} key={i} />))}
 
-        {markers.map((m, i) => (<Marker title={m.title} description={m.description} coordinate={m.coordinate} key={i} />))}
+        </MapView>
 
-      </MapView>
+        <View style={styles.hotBar}>
+          <Text style={styles.textColor}>Map Type</Text>
+          <Switch
+            trackColor={{ true: palette[colorTheme].text, false: palette[colorTheme].text }}
+            thumbColor={palette[colorTheme].light}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={switchMap}
+            value={mapType == "satellite"}
+          />
+        </View>
 
-      <View style={styles.hotBar}>
-        <Text style={styles.textColor}>Map Type</Text>
-        <Switch
-          trackColor={{ true: palette[colorTheme].text, false: palette[colorTheme].text }}
-          thumbColor={palette[colorTheme].light}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={switchMap}
-          value={mapType == "satellite"}
-        />
       </View>
 
-    </View>
-    <NavRadialMenu radius={120} navButtons={[]} />
-  </>
+      <NavRadialMenu navButtons={[]} navigation={navigation} />
+    </>
   );
 }
 

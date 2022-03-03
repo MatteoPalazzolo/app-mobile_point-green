@@ -1,19 +1,20 @@
 // REACT
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 // CUSTOM
-import { ThemeContext } from '../../App';
-import { palette, t_ColorTheme } from "../constants/Colors";
-import { t_NavButton, t_Vector2 } from "../constants/Types";
+import { ThemeContext } from '../../../App';
+import { t_NavButton, t_Vector2 } from '../../constants/Types';
+import { palette, t_ColorTheme } from '../../constants/Colors';
 import NavRadialButton from './NavRadialButton';
 
 
-interface i_NavRadialMenu { navButtons: t_NavButton[], radius: number }
-export default function NavRadialMenu({ navButtons, radius }: i_NavRadialMenu) {
+interface i_NavRadialMenu { navButtons: t_NavButton[], navigation: any }
+export default function NavRadialMenu({ navButtons, navigation }: i_NavRadialMenu) {
 
+  const radius = 120;
+  const openTime = 300; //ms
 
-  radius = 120;
   navButtons = [
     { name: "ciao", icon: 2 },
     { name: "hello", icon: 4 },
@@ -23,30 +24,33 @@ export default function NavRadialMenu({ navButtons, radius }: i_NavRadialMenu) {
   ];
 
   /* create an array containing the procedural generated target position for all buttons */
-  const buttonEndCoords: t_Vector2[] = navButtons.map((b, i) => {
-    const stepRad = Math.PI / (navButtons.length + 1);
-    const currentAngle = stepRad * (i + 1);
-    const x: number = Math.cos(currentAngle) * radius;
-    const y: number = -Math.sin(currentAngle) * radius;
-    /*
-    console.log("deg: ", stepRad * (180 / Math.PI));
-    console.log("x: ", x, "y: ", y);
-    */
-    return { x, y };
-  });
+  const calcButtonsTargetPos = () => (
+    navButtons.map((b, i) => {
+      const stepRad = Math.PI / (navButtons.length + 1);
+      const currentAngle = stepRad * (i + 1);
+      const x: number = Math.cos(currentAngle) * radius;
+      const y: number = -Math.sin(currentAngle) * radius;
+      /*
+      console.log("deg: ", stepRad * (180 / Math.PI));
+      console.log("x: ", x, "y: ", y);
+      */
+      return { x, y };
+    }));
+  const buttonEndCoords: t_Vector2[] = useMemo(() => calcButtonsTargetPos(), [navButtons])
 
+  // ColorTheme
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const styles = getStyle(colorTheme);
 
   /****************** 
    * RENDER 
   ******************/
-  const [menuOpen, setMenuOpen] = useState(false);
-  const triggerAnimList: ((type: boolean) => void)[] = useState([])[0];
+  const [menuOpen, setMenuOpen] = useState(true);
+  const btnAnimationRegister: ((type: boolean) => void)[] = useState([])[0];
 
   function triggerNavMenu() {
+    btnAnimationRegister.forEach(e => e(menuOpen));
     setMenuOpen(!menuOpen);
-    triggerAnimList.forEach(e => e(menuOpen));
   }
 
   return (
@@ -55,16 +59,14 @@ export default function NavRadialMenu({ navButtons, radius }: i_NavRadialMenu) {
       {navButtons.map((b, i) => {
         return (
           <NavRadialButton
-            triggerAnimList={triggerAnimList}
-            targetCoords={buttonEndCoords[i]}
-            radius={radius}
-            animDuration={300}
+            funcRegister={btnAnimationRegister}
+            animationOptions={{ endPos: buttonEndCoords[i], radius: radius, openTime: openTime }}
             key={i} />
         );
       })}
 
       <TouchableOpacity
-        onPress={() => triggerNavMenu()}
+        onPress={triggerNavMenu}
         style={[styles.buttonTransform, styles.menuButton]}
         activeOpacity={0.9}>
         <FontAwesome5 style={styles.plantIcon} name="seedling" size={36} color={palette[colorTheme].dominant} />

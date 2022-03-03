@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 // CUSTOM
 import { ThemeContext } from "../../App";
 import { palette, t_ColorTheme } from "../constants/Colors";
-import { /*RootStackParamList*/ t_Screen } from "../constants/Types";
+import { t_Screen } from "./Screens";
 
 const Stack = createNativeStackNavigator();
 

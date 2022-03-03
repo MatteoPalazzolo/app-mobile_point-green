@@ -4,14 +4,11 @@ import { StyleSheet, StatusBar, Platform, useColorScheme, Text, View } from 'rea
 import Navigator from './app/navigation/Navigator';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
-// SCREENS
-import MapScreen from "./app/screens/MapScreen";
-import ShopScreen from "./app/screens/ShopScreen";
-import FeedScreen from "./app/screens/FeedScreen";
-import ProfileScreen from "./app/screens/ProfileScreen";
 // CUSTOM
 import { t_ColorTheme } from "./app/constants/Colors";
-import { t_Vector2, t_Screen } from "./app/constants/Types";
+import { t_Vector2 } from "./app/constants/Types";
+// SCREENS
+import { screens } from "./app/navigation/Screens";
 
 
 export const ThemeContext = createContext<t_ColorTheme>("light");
@@ -35,13 +32,6 @@ export default function App() {
 
   if (!fontsLoaded)
     return <AppLoading />
-
-  const screens: t_Screen[] = [
-    { label: "Home", icon: 5, child: <MapScreen /> },
-    { label: "Shop", icon: 5, child: <ShopScreen /> },
-    { label: "Feed", icon: 5, child: <FeedScreen /> },
-    { label: "Profile", icon: 5, child: <ProfileScreen /> },
-  ];
 
   return (
     <ThemeContext.Provider value={colorTheme}>
