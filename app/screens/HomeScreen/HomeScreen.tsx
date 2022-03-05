@@ -1,16 +1,24 @@
 // expo install react-native-maps
 
 // IMPORT
-import React, { FC, useContext, useState } from 'react';
+// React
+import React, { useContext, useState } from 'react';
+// Google Maps
 import MapView, { Marker, MapTypes, PROVIDER_GOOGLE } from 'react-native-maps';
 import { View, Switch, StyleSheet, Text } from 'react-native';
+// Navigation
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+
 // COMPONENTS
-import CoinCounter from '../components/CoinCounter';
-import NavRadialMenu from '../navigation/components/NavRadialMenu';
+import CoinCounter from '../../components/CoinCounter';
+import NavRadialMenu from '../../navigation/components/NavRadialMenu';
+
 // CUSTOM
-import { palette, t_ColorTheme } from "../constants/Colors";
-import { ThemeContext } from '../../App';
-import { darkMode, lightMode } from '../constants/MapStyles';
+import { palette, t_ColorTheme } from "../../constants/Colors";
+import { ThemeContext } from '../../../App';
+import { darkMode, lightMode } from './MapStyles';
+import { t_RootStackParamList } from '../../navigation/screens';
+
 
 type t_region = { latitude: number, longitude: number, latitudeDelta: number, longitudeDelta: number, };
 const region: t_region = {
@@ -26,8 +34,11 @@ const markers: t_marker = [
   { title: "New Spot 2", description: "new for real", coordinate: { latitude: 45.24337, longitude: 11.27919 } },
 ];
 
-interface i_MapScreen { navigation?: any }
-export default function MapScreen({ navigation }: i_MapScreen) {
+// interface i_MapScreen { navigation?: any }
+type t_HomeScreen = NativeStackScreenProps<t_RootStackParamList, 'Home'>;
+export type t_HomeNavigation = t_HomeScreen['navigation'];
+
+export default function HomeScreen({ route, navigation }: t_HomeScreen) {
 
   // MAP TYPE
   const [mapType, setMapType] = useState<MapTypes>("standard");
@@ -67,10 +78,9 @@ export default function MapScreen({ navigation }: i_MapScreen) {
             value={mapType == "satellite"}
           />
         </View>
-
       </View>
 
-      <NavRadialMenu navButtons={[]} navigation={navigation} />
+      <NavRadialMenu navigation={navigation} />
     </>
   );
 }

@@ -3,35 +3,42 @@ import React, { useContext } from "react";
 import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Ionicons } from '@expo/vector-icons';
 
 // CUSTOM
 import { ThemeContext } from "../../App";
 import { palette, t_ColorTheme } from "../constants/Colors";
-import { t_Screen } from "./Screens";
+import { t_RootStackParamList, screens, t_Screen } from "./screens";
 
-const Stack = createNativeStackNavigator();
 
-interface i_Navigation { screens: t_Screen[] }
-export default function Navigation({ screens }: i_Navigation): JSX.Element {
+const stack = createNativeStackNavigator<t_RootStackParamList>();
+
+interface i_Navigation { }
+export default function Navigation({ }: i_Navigation): JSX.Element {
 
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
 
   return (
     <NavigationContainer>
-      <Stack.Navigator
+      <stack.Navigator
         screenOptions={screenOptions}>
         {screens.map((s, i) =>
-          (<Stack.Screen name={s.label} component={s.child.type} initialParams={s.child.props} key={i} />)
+        (<stack.Screen
+          name={s.label}
+          component={s.screen.type}
+          initialParams={s.screen.props}
+          options={s.options}
+          key={i} />)
         )}
-      </Stack.Navigator>
+      </stack.Navigator>
     </NavigationContainer>
   );
 }
 
 const screenOptions = {
-  headerShown: false,
+  headerShown: true,
 }
 
-const styles = StyleSheet.create({
-});
+const getStyle = (colorTheme: t_ColorTheme) => (
+  StyleSheet.create({
+  })
+);

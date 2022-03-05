@@ -6,14 +6,17 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { ThemeContext } from '../../../App';
 import { palette, t_ColorTheme } from "../../constants/Colors";
 import { t_NavButton, t_Vector2 } from "../../constants/Types";
+import { t_RootStackParamList, t_Screen } from '../screens';
+import { t_HomeNavigation } from '../../screens/HomeScreen/HomeScreen';
 
 
 interface i_NavRadialButton {
   funcRegister: Function[],
-  animationOptions: { endPos: t_Vector2, radius: number, openTime: number }
-  style?: any
+  animationOptions: { endPos: t_Vector2, radius: number, openTime: number },
+  screenInfo: t_Screen,
+  navigation: t_HomeNavigation,
 }
-export default function NavRadialButton({ funcRegister, animationOptions, style = {} }: i_NavRadialButton) {
+export default function NavRadialButton({ funcRegister, animationOptions, screenInfo, navigation }: i_NavRadialButton) {
 
   const { endPos, radius, openTime } = animationOptions;
 
@@ -67,12 +70,25 @@ export default function NavRadialButton({ funcRegister, animationOptions, style 
     funcRegister.push(startAnimation);
   }, []);
 
+  function loadNewScreen() {
+    console.log(screenInfo.label);
+    navigation.navigate(screenInfo.label);
+  }
+
 
   /****************** 
    * RENDER 
   ******************/
   const transform = [{ translateX: posX }, { translateY: posY }]
-  return <Animated.View style={[styles.buttonTransform, styles.navButton, { transform }]} />;
+  return (
+    <Animated.View style={[styles.buttonTransform, , { transform }]}>
+      <TouchableOpacity
+        style={[styles.navButton, styles.touchableOpacityTransform]}
+        onPress={loadNewScreen}
+        activeOpacity={0.9}>
+      </TouchableOpacity>
+    </Animated.View>
+  );
 }
 
 
@@ -91,5 +107,9 @@ const getStyle = (colorTheme: t_ColorTheme) => (
       borderRadius: 100,
       backgroundColor: palette[colorTheme].complementary,
     },
+    touchableOpacityTransform: {
+      position: "absolute", top: 0, bottom: 0, right: 0, left: 0,
+      zIndex: 1,
+    }
   })
 );

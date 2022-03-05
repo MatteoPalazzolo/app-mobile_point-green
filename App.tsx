@@ -7,8 +7,6 @@ import { useFonts } from 'expo-font';
 // CUSTOM
 import { t_ColorTheme } from "./app/constants/Colors";
 import { t_Vector2 } from "./app/constants/Types";
-// SCREENS
-import { screens } from "./app/navigation/Screens";
 
 
 export const ThemeContext = createContext<t_ColorTheme>("light");
@@ -26,8 +24,8 @@ export default function App() {
 
   // FONTS
   let [fontsLoaded] = useFonts({
-    'Coin-Normal': require('./app/assets/fonts/RedHatDisplay.ttf'),
-    'Raleway': 'https://fonts.googleapis.com/css2?family=Raleway&display=swap',
+    'Coin-Normal': require('./app/assets/fonts/RedHatDisplay.ttf'),/*
+    'Raleway': 'https://fonts.googleapis.com/css2?family=Raleway&display=swap',*/
   });
 
   if (!fontsLoaded)
@@ -35,7 +33,7 @@ export default function App() {
 
   return (
     <ThemeContext.Provider value={colorTheme}>
-      <Navigator screens={screens} />
+      <Navigator />
     </ThemeContext.Provider>
   );
 }

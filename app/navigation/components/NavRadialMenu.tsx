@@ -7,28 +7,25 @@ import { ThemeContext } from '../../../App';
 import { t_NavButton, t_Vector2 } from '../../constants/Types';
 import { palette, t_ColorTheme } from '../../constants/Colors';
 import NavRadialButton from './NavRadialButton';
+import { screens, t_RootStackParamList, t_Screen } from '../screens';
+import { t_HomeNavigation } from '../../screens/HomeScreen/HomeScreen';
 
 
-interface i_NavRadialMenu { navButtons: t_NavButton[], navigation: any }
-export default function NavRadialMenu({ navButtons, navigation }: i_NavRadialMenu) {
+interface i_NavRadialMenu { navigation: t_HomeNavigation }
+export default function NavRadialMenu({ navigation }: i_NavRadialMenu) {
+
+  const newScreens = [...screens];
+  newScreens.shift();
 
   const radius = 120;
   const openTime = 300; //ms
 
-  navButtons = [
-    { name: "ciao", icon: 2 },
-    { name: "hello", icon: 4 },
-    { name: "hola", icon: 5 },
-    { name: "hola", icon: 5 },
-    { name: "hola", icon: 5 },
-  ];
-
   /* create an array containing the procedural generated target position for all buttons */
   const calcButtonsTargetPos = () => (
-    navButtons.map((b, i) => {
-      const stepRad = Math.PI / (navButtons.length + 1);
+    newScreens.map((b, i) => {
+      const stepRad = Math.PI / (newScreens.length + 1);
       const currentAngle = stepRad * (i + 1);
-      const x: number = Math.cos(currentAngle) * radius;
+      const x: number = -Math.cos(currentAngle) * radius;
       const y: number = -Math.sin(currentAngle) * radius;
       /*
       console.log("deg: ", stepRad * (180 / Math.PI));
@@ -36,7 +33,8 @@ export default function NavRadialMenu({ navButtons, navigation }: i_NavRadialMen
       */
       return { x, y };
     }));
-  const buttonEndCoords: t_Vector2[] = useMemo(() => calcButtonsTargetPos(), [navButtons])
+  const buttonEndCoords: t_Vector2[] = useMemo(() => calcButtonsTargetPos(), []);
+
 
   // ColorTheme
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
@@ -56,11 +54,13 @@ export default function NavRadialMenu({ navButtons, navigation }: i_NavRadialMen
   return (
     <View style={styles.container}>
 
-      {navButtons.map((b, i) => {
+      {newScreens.map((b, i) => {
         return (
           <NavRadialButton
             funcRegister={btnAnimationRegister}
             animationOptions={{ endPos: buttonEndCoords[i], radius: radius, openTime: openTime }}
+            screenInfo={newScreens[i]}
+            navigation={navigation}
             key={i} />
         );
       })}
