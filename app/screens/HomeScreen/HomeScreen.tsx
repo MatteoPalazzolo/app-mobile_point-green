@@ -54,7 +54,7 @@ export default function HomeScreen({ route, navigation }: t_HomeScreen) {
     <>
       <View style={styles.container}>
 
-        <CoinCounter style={styles.coinCounter} />
+        {/* <CoinCounter style={styles.coinCounter} /> */}
 
         <MapView
           style={styles.map}

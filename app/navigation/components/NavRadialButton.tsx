@@ -1,7 +1,6 @@
 // REACT
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated, Easing } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
 // CUSTOM
 import { ThemeContext } from '../../../App';
 import { palette, t_ColorTheme } from "../../constants/Colors";
@@ -86,6 +85,7 @@ export default function NavRadialButton({ funcRegister, animationOptions, screen
         style={[styles.navButton, styles.touchableOpacityTransform]}
         onPress={loadNewScreen}
         activeOpacity={0.9}>
+        <screenInfo.icon width={36} height={36} color={palette[colorTheme].dominant} />
       </TouchableOpacity>
     </Animated.View>
   );
@@ -110,6 +110,9 @@ const getStyle = (colorTheme: t_ColorTheme) => (
     touchableOpacityTransform: {
       position: "absolute", top: 0, bottom: 0, right: 0, left: 0,
       zIndex: 1,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center"
     }
   })
 );

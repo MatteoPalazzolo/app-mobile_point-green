@@ -1,9 +1,3 @@
-/*
-export type RootStackParamList = {
-  TabOne: undefined;
-  TabTwo: undefined;
-};
-*/
 export type t_Vector2 = {
   x: number,
   y: number

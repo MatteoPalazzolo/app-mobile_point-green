@@ -3,12 +3,13 @@
     "name": "PointGreen",
     "slug": "PointGreen",
     "version": "1.0.0",
+    "description": "Test version",
     "orientation": "portrait",
-    "icon": "./app/assets/images/icon1.png",
+    "icon": "./app/assets/app_icons/icon1.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./app/assets/images/splash1.png",
+      "image": "./app/assets/app_icons/splash1.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -22,13 +23,14 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.pointgreen_lab.pointgreen",
       "adaptiveIcon": {
-        "foregroundImage": "./app/assets/images/adaptive-icon1.png",
+        "foregroundImage": "./app/assets/app_icons/adaptive-icon1.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "./app/assets/images/favicon.png"
+      "favicon": "./app/assets/app_icons/favicon.png"
     }
   }
 }

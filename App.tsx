@@ -20,7 +20,7 @@ export default function App() {
     setColorTheme(previousState => previousState == "light" ? "dark" : "light");
   } */
   const colorScheme = useColorScheme(); //returns "light"
-  const colorTheme: t_ColorTheme = "dark" || (colorScheme ? colorScheme : "light");
+  const colorTheme: t_ColorTheme = "light" || (colorScheme ? colorScheme : "light");
 
   // FONTS
   let [fontsLoaded] = useFonts({

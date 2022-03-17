@@ -14,6 +14,7 @@ import { t_HomeNavigation } from '../../screens/HomeScreen/HomeScreen';
 interface i_NavRadialMenu { navigation: t_HomeNavigation }
 export default function NavRadialMenu({ navigation }: i_NavRadialMenu) {
 
+  const homeScreen = screens[0]
   const newScreens = [...screens];
   newScreens.shift();
 
@@ -69,7 +70,7 @@ export default function NavRadialMenu({ navigation }: i_NavRadialMenu) {
         onPress={triggerNavMenu}
         style={[styles.buttonTransform, styles.menuButton]}
         activeOpacity={0.9}>
-        <FontAwesome5 style={styles.plantIcon} name="seedling" size={36} color={palette[colorTheme].dominant} />
+        <homeScreen.icon width={36} height={36} color={palette[colorTheme].dominant} />
       </TouchableOpacity>
 
     </View>
@@ -96,20 +97,12 @@ const getStyle = (colorTheme: t_ColorTheme) => (
       position: "absolute",
       bottom: 0,
     },
-    navButton: {
-      borderRadius: 100,
-      backgroundColor: palette[colorTheme].complementary,
-    },
     menuButton: {
       alignItems: "center",
       justifyContent: "center",
 
       borderRadius: 100,
       backgroundColor: palette[colorTheme].accent,
-    },
-    plantIcon: {
-      position: "relative",
-      bottom: -5,
     },
   })
 );
