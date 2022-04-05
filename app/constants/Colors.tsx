@@ -1,5 +1,7 @@
+import { createContext, useState } from "react";
 
-export type t_ColorTheme = "dark" | "light";
+export type t_ColorMode = 'dark' | 'light' | 'auto' | null | undefined;
+export type t_ColorTheme = 'dark' | 'light';
 
 export const palette = {
   light: {
@@ -25,3 +27,9 @@ export const palette = {
     text: "#000"
   }
 }
+
+export function toTheme(colorMode: t_ColorMode): t_ColorTheme {
+  return colorMode === 'light' ? 'light' : 'dark';
+}
+
+export const ThemeContext = createContext<t_ColorTheme>('light');

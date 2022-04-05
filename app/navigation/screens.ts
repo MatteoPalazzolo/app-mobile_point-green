@@ -41,6 +41,23 @@ export type t_Screen = {
   options: NativeStackNavigationOptions,
 };
 
+
+export const screens: t_Screen[] = [
+  {
+    label: "Home",
+    icon: HomeIcon,
+    screen: { type: HomeScreen, props: {} },
+    options: { headerShown: false }
+  },
+  {
+    label: "Pins",
+    icon: PinIcon,
+    screen: { type: PinScreen, props: {} },
+    options: {}
+  }
+];
+
+/*
 export const screens: t_Screen[] = [
   {
     label: "Home",
@@ -80,3 +97,4 @@ export const screens: t_Screen[] = [
     options: {}
   },
 ];
+*/

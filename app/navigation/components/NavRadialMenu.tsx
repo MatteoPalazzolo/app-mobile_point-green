@@ -3,15 +3,14 @@ import React, { useContext, useMemo, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 // CUSTOM
-import { ThemeContext } from '../../../App';
 import { t_NavButton, t_Vector2 } from '../../constants/Types';
-import { palette, t_ColorTheme } from '../../constants/Colors';
+import { palette, t_ColorTheme, ThemeContext } from '../../constants/Colors';
 import NavRadialButton from './NavRadialButton';
-import { screens, t_RootStackParamList, t_Screen } from '../screens';
-import { t_HomeNavigation } from '../../screens/HomeScreen/HomeScreen';
+import { screens, t_RootStackParamList } from '../screens';
+import { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 
 
-interface i_NavRadialMenu { navigation: t_HomeNavigation }
+interface i_NavRadialMenu { navigation: NavigationContainerRefWithCurrent<t_RootStackParamList> }
 export default function NavRadialMenu({ navigation }: i_NavRadialMenu) {
 
   const homeScreen = screens[0]
@@ -55,16 +54,14 @@ export default function NavRadialMenu({ navigation }: i_NavRadialMenu) {
   return (
     <View style={styles.container}>
 
-      {newScreens.map((b, i) => {
-        return (
-          <NavRadialButton
-            funcRegister={btnAnimationRegister}
-            animationOptions={{ endPos: buttonEndCoords[i], radius: radius, openTime: openTime }}
-            screenInfo={newScreens[i]}
-            navigation={navigation}
-            key={i} />
-        );
-      })}
+      {newScreens.map((b, i) => (
+        <NavRadialButton
+          funcRegister={btnAnimationRegister}
+          animationOptions={{ endPos: buttonEndCoords[i], radius: radius, openTime: openTime }}
+          screenInfo={newScreens[i]}
+          navigation={navigation}
+          key={i} />
+      ))}
 
       <TouchableOpacity
         onPress={triggerNavMenu}

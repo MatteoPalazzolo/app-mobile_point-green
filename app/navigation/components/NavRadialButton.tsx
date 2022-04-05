@@ -2,18 +2,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated, Easing } from 'react-native';
 // CUSTOM
-import { ThemeContext } from '../../../App';
-import { palette, t_ColorTheme } from "../../constants/Colors";
+import { palette, t_ColorTheme, ThemeContext } from "../../constants/Colors";
 import { t_NavButton, t_Vector2 } from "../../constants/Types";
 import { t_RootStackParamList, t_Screen } from '../screens';
-import { t_HomeNavigation } from '../../screens/HomeScreen/HomeScreen';
+import { NavigationContainerRefWithCurrent } from '@react-navigation/native';
 
 
 interface i_NavRadialButton {
   funcRegister: Function[],
   animationOptions: { endPos: t_Vector2, radius: number, openTime: number },
   screenInfo: t_Screen,
-  navigation: t_HomeNavigation,
+  navigation: NavigationContainerRefWithCurrent<t_RootStackParamList>,
 }
 export default function NavRadialButton({ funcRegister, animationOptions, screenInfo, navigation }: i_NavRadialButton) {
 

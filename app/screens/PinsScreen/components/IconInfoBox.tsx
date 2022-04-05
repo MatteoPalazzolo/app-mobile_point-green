@@ -2,26 +2,25 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 // CUSTOM
-import { ThemeContext } from '../../../../App';
-import { palette, t_ColorTheme } from "../../../constants/Colors";
+import { palette, ThemeContext, t_ColorTheme } from "../../../constants/Colors";
 import { } from "../../../constants/Types";
 
 
 interface i_IconInfoBox {
-  options: {
-    icon: JSX.Element,
-    value: string | number,
-    fontSize: number,
-  }
+  icon: JSX.Element,
+  value: string | number
 }
-export default function IconInfoBox({ }: i_IconInfoBox) {
+export default function IconInfoBox({ icon, value }: i_IconInfoBox) {
 
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const styles = getStyle(colorTheme);
+  const plt = palette[colorTheme];
+  const sizeMult = 1;
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>TabBar</Text>
+      <icon.type {...icon.props} size={icon.props.size * sizeMult} style={styles.icon} color={plt.dark} />
+      <Text style={styles.text}>{value}</Text>
     </View>
   );
 }
@@ -33,12 +32,15 @@ const getStyle = (colorTheme: t_ColorTheme) => {
   return StyleSheet.create({
     container: {
       display: 'flex',
-      flexDirection: 'row'
+      flexDirection: 'row',
+      alignItems: 'center',
     },
     icon: {
 
     },
     text: {
+      marginLeft: 5,
+      fontSize: 19,
 
     },
   });

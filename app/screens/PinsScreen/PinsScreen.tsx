@@ -1,64 +1,75 @@
 // REACT
-import React, { useContext } from 'react';
-import { View, Text, StyleSheet, ScrollView, BackHandler, FlatList } from 'react-native';
+import React, { useContext, useMemo, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, BackHandler, FlatList, Dimensions, StatusBar, SafeAreaView, Platform } from 'react-native';
 // CUSTOM
-import { ThemeContext } from '../../../App';
-import { palette, t_ColorTheme } from "../../constants/Colors";
+import { toTheme, palette, ThemeContext, t_ColorTheme } from "../../constants/Colors";
 import { } from "../../constants/Types";
 // COMPONENTS
 import AddPin from './components/AddPin';
 import PinCard from './components/PinCard';
 import PinTabBar from './components/PinTabBar';
+import { t_CardData } from './typePinScreen';
+import { usePinScreen } from './usePinScreen';
 
+const { width, height } = Dimensions.get('screen');
 
 interface i_PinsScreen { }
 export default function PinScreen({ }: i_PinsScreen) {
 
-  type t_CardData = { content: {}, key: number };
-  const items: t_CardData[] = [
-    {},
-    {},
-    {},
-    {},
-    {},
-  ].map((e, i) => (
-    { content: e, key: i }
-  ));
-
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const styles = getStyle(colorTheme);
 
+  const { tabScreens } = usePinScreen();
+
+
   return (
-    <View style={styles.container}>
-      <PinTabBar />
+    <SafeAreaView style={styles.safeArea}>
+      <View >
+        <Text>Feed</Text>
+        <Text>Mine</Text>
+        <Text>History</Text>
+      </View>
       <FlatList
-        style={styles.scrollView}
-        showsVerticalScrollIndicator={false}
-        data={items}
-        renderItem={
-          ({ item }: { item: t_CardData }) => {
-            if (item.key === 0)
-              return <AddPin />
-            else
-              return <PinCard />
-          }
-        }>
+        horizontal
+        pagingEnabled
+        bounces={false}
+        showsHorizontalScrollIndicator={false}
+        style={{ width, height }}
+        data={tabScreens}
+        renderItem={({ item }) => (
+          <View style={styles.cardContainer}>
+            <FlatList
+              style={styles.scrollView}
+              showsVerticalScrollIndicator={false}
+              data={item}
+              renderItem={({ item }: { item: t_CardData }) => item.key % 100 === 0 ? <AddPin /> : <PinCard cardInfo={item.content} />}>
+            </FlatList>
+          </View>
+        )}>
       </FlatList>
-    </View>
+    </SafeAreaView>
   );
+
 }
 
-const getStyle = (colorTheme: t_ColorTheme) => (
-  StyleSheet.create({
-    container: {
+const getStyle = (colorTheme: t_ColorTheme) => {
+  const plt = palette[colorTheme];
+  return StyleSheet.create({
+    safeArea: {
+      marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    },
+    cardContainer: {
+      width,
+      height,
       display: 'flex',
       alignItems: 'center',
-      backgroundColor: '#bbb',
+      backgroundColor: plt.dominant,
+      marginTop: 45,
     },
     scrollView: {
-      width: '90%',
-      backgroundColor: '#bbb',
+      width: '85%',
+      backgroundColor: plt.dominant,
     },
     text: { textAlign: "center" },
-  })
-);
+  });
+}

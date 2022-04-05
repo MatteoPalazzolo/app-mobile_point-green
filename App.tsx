@@ -5,11 +5,9 @@ import Navigator from './app/navigation/Navigator';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 // CUSTOM
-import { t_ColorTheme } from "./app/constants/Colors";
+import { toTheme, ThemeContext, t_ColorTheme } from "./app/constants/Colors";
 import { t_Vector2 } from "./app/constants/Types";
 
-
-export const ThemeContext = createContext<t_ColorTheme>("light");
 
 export default function App() {
 
@@ -19,8 +17,9 @@ export default function App() {
   function toggleColorTheme() {
     setColorTheme(previousState => previousState == "light" ? "dark" : "light");
   } */
+  const themeContext = ThemeContext;
   const colorScheme = useColorScheme(); //returns "light"
-  const colorTheme: t_ColorTheme = "light" || (colorScheme ? colorScheme : "light");
+  const colorTheme: t_ColorTheme = 'light' || toTheme(colorScheme);
 
   // FONTS
   let [fontsLoaded] = useFonts({
@@ -32,14 +31,14 @@ export default function App() {
     return <AppLoading />
 
   return (
-    <ThemeContext.Provider value={colorTheme}>
+    <themeContext.Provider value={colorTheme}>
       <Navigator />
-    </ThemeContext.Provider>
+    </themeContext.Provider>
   );
 }
 
 const styles = StyleSheet.create({
   safeArea: {
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
   },
 });

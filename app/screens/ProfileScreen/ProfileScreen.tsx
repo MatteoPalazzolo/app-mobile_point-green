@@ -2,8 +2,7 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 // CUSTOM
-import { ThemeContext } from '../../../App';
-import { palette, t_ColorTheme } from "../../constants/Colors";
+import { palette, ThemeContext, t_ColorTheme } from "../../constants/Colors";
 import { } from "../../constants/Types";
 
 

@@ -10,12 +10,10 @@ import { View, Switch, StyleSheet, Text } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 // COMPONENTS
-import CoinCounter from '../../components/CoinCounter';
-import NavRadialMenu from '../../navigation/components/NavRadialMenu';
+//import NavRadialMenu from '../../navigation/components/NavRadialMenu';
 
 // CUSTOM
-import { palette, t_ColorTheme } from "../../constants/Colors";
-import { ThemeContext } from '../../../App';
+import { palette, ThemeContext, t_ColorTheme } from "../../constants/Colors";
 import { darkMode, lightMode } from './MapStyles';
 import { t_RootStackParamList } from '../../navigation/screens';
 
@@ -51,37 +49,34 @@ export default function HomeScreen({ route, navigation }: t_HomeScreen) {
   const styles = getStyle(colorTheme);
 
   return (
-    <>
-      <View style={styles.container}>
+    <View style={styles.container}>
 
-        {/* <CoinCounter style={styles.coinCounter} /> */}
+      {/* <CoinCounter style={styles.coinCounter} /> */}
 
-        <MapView
-          style={styles.map}
-          region={region}
-          mapType={mapType}
-          /*userInterfaceStyle={colorTheme}*/
-          customMapStyle={colorTheme === "light" ? lightMode : darkMode}
-          provider={PROVIDER_GOOGLE}>
+      <MapView
+        style={styles.map}
+        region={region}
+        mapType={mapType}
+        /*userInterfaceStyle={colorTheme}*/
+        customMapStyle={colorTheme === "light" ? lightMode : darkMode}
+        provider={PROVIDER_GOOGLE}>
 
-          {markers.map((m, i) => (<Marker title={m.title} description={m.description} coordinate={m.coordinate} key={i} />))}
+        {markers.map((m, i) => (<Marker title={m.title} description={m.description} coordinate={m.coordinate} key={i} />))}
 
-        </MapView>
+      </MapView>
 
-        <View style={styles.hotBar}>
-          <Text style={styles.textColor}>Map Type</Text>
-          <Switch
-            trackColor={{ true: palette[colorTheme].text, false: palette[colorTheme].text }}
-            thumbColor={palette[colorTheme].light}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={switchMap}
-            value={mapType == "satellite"}
-          />
-        </View>
+      <View style={styles.hotBar}>
+        <Text style={styles.textColor}>Map Type</Text>
+        <Switch
+          trackColor={{ true: palette[colorTheme].text, false: palette[colorTheme].text }}
+          thumbColor={palette[colorTheme].light}
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={switchMap}
+          value={mapType == "satellite"}
+        />
       </View>
+    </View>
 
-      <NavRadialMenu navigation={navigation} />
-    </>
   );
 }
 

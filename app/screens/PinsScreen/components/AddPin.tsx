@@ -2,9 +2,7 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 // CUSTOM
-import { ThemeContext } from '../../../../App';
-import { palette, t_ColorTheme } from "../../../constants/Colors";
-import { } from "../../../constants/Types";
+import { ThemeContext, palette, t_ColorTheme } from "../../../constants/Colors";
 
 
 interface i_AddPin { }
