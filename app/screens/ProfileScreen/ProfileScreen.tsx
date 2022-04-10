@@ -14,7 +14,7 @@ export default function ProfileScreen({ }: i_ProfileScreen) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>ShopScreen</Text>
+      <Text style={styles.text}>ProfileScreen</Text>
     </View>
   );
 }

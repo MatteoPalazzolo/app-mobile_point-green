@@ -1,8 +1,3 @@
-// IMPORT
-import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
-import { SvgProps } from "react-native-svg";
-import { FC } from "react";
-
 // SCREENS
 import HomeScreen from "../screens/HomeScreen/HomeScreen";
 import ShopScreen from "../screens/ShopScreen/ShopScreen";
@@ -19,82 +14,60 @@ import PinIcon from "./nav_icons/PinIcon";
 import SettingsIcon from "./nav_icons/SettingsIcon";
 import AchievementIcon from "./nav_icons/AchievementIcon";
 import TrophyIcon from "./nav_icons/TrophyIcon";
+import PinCreationScreen from "../screens/PinCreationScreen/PinCreationScreen";
+import { t_Screen } from "./typeNavigation";
 
 
 // EXPORT
-export type t_RootStackParamList = {
-  Home: undefined;
-  Shop: undefined;
-  Profile: undefined;
-  Pins: undefined;
-  Settings: undefined;
-  Achievements: undefined;
-};
-
-export type t_Screen = {
-  label: keyof t_RootStackParamList,
-  icon: FC<SvgProps>,
-  screen: {
-    type: JSX.Element | any,
-    props: {} | any,
-  }
-  options: NativeStackNavigationOptions,
-};
-
-
 export const screens: t_Screen[] = [
   {
     label: "Home",
     icon: HomeIcon,
     screen: { type: HomeScreen, props: {} },
-    options: { headerShown: false }
-  },
-  {
-    label: "Pins",
-    icon: PinIcon,
-    screen: { type: PinScreen, props: {} },
-    options: {}
-  }
-];
-
-/*
-export const screens: t_Screen[] = [
-  {
-    label: "Home",
-    icon: HomeIcon,
-    screen: { type: HomeScreen, props: {} },
-    options: { headerShown: false }
+    options: { headerShown: false },
+    navbar: false,
   },
   {
     label: "Profile",
     icon: UserIcon,
     screen: { type: ProfileScreen, props: {} },
-    options: {}
-
+    options: {},
+    navbar: true,
   },
   {
     label: "Shop",
     icon: ShopIcon,
     screen: { type: ShopScreen, props: {} },
-    options: {}
+    options: {},
+    navbar: true,
   },
   {
     label: "Pins",
     icon: PinIcon,
     screen: { type: PinScreen, props: {} },
-    options: {}
+    options: {},
+    navbar: true,
   },
   {
     label: "Achievements",
     icon: TrophyIcon,
     screen: { type: AchievementsScreen, props: {} },
-    options: {}
+    options: {},
+    navbar: true,
   },
   {
     label: "Settings",
     icon: SettingsIcon,
     screen: { type: SettingsScreen, props: {} },
-    options: {}
+    options: {},
+    navbar: true,
+  },
+  {
+    label: "PinCreation",
+    icon: undefined,
+    screen: { type: PinCreationScreen, props: {} },
+    options: {},
+    navbar: false,
   },
 ];
-*/
+

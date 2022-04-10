@@ -12,7 +12,7 @@ import { prettifyDistance, prettifyUnits } from '../../../utilities/PrettifyData
 import IconInfoBox from './IconInfoBox';
 import RatingsBox from './RatingsBox';
 import TagsList from './TagBox';
-import { t_PinInfo } from '../typePinScreen';
+import { t_PinInfo } from '../typePinsScreen';
 
 
 interface i_PinCard {

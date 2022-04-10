@@ -1,23 +1,28 @@
 // REACT
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 // CUSTOM
 import { ThemeContext, palette, t_ColorTheme } from "../../../constants/Colors";
+import { NavigationContext } from '../../../navigation/contextNavigation';
+import { t_Navigation } from '../../../navigation/typeNavigation';
 
 
 interface i_AddPin { }
 export default function AddPin({ }: i_AddPin) {
 
+  const navigation: t_Navigation = useContext(NavigationContext);
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const styles = getStyle(colorTheme);
 
+  console.log(navigation);
+
   return (
-    <TouchableOpacity style={[styles.container, styles.touchOpacity]} activeOpacity={.8} onPress={() => console.log("ADD PIN")}>
+    <Pressable style={[styles.container, styles.touchOpacity]} onPress={() => console.log("ADD PIN")}>
       <View style={[styles.container, styles.button]}>
         <Text style={styles.addIcon}>+</Text>
         <Text style={styles.text}>ADD PIN</Text>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 
@@ -40,6 +45,7 @@ const getStyle = (colorTheme: t_ColorTheme) => {
       backgroundColor: '#FFF',
       ...cardShadow,
 
+      marginTop: 10,
       marginBottom: 25,
     },
     button: {

@@ -15,7 +15,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 // CUSTOM
 import { palette, ThemeContext, t_ColorTheme } from "../../constants/Colors";
 import { darkMode, lightMode } from './MapStyles';
-import { t_RootStackParamList } from '../../navigation/screens';
+import { t_RootStackParamList } from '../../navigation/typeNavigation';
 
 
 type t_region = { latitude: number, longitude: number, latitudeDelta: number, longitudeDelta: number, };

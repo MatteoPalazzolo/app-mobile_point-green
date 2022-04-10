@@ -6,7 +6,6 @@ import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 // CUSTOM
 import { toTheme, ThemeContext, t_ColorTheme } from "./app/constants/Colors";
-import { t_Vector2 } from "./app/constants/Types";
 
 
 export default function App() {
@@ -36,9 +35,3 @@ export default function App() {
     </themeContext.Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  safeArea: {
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
-  },
-});

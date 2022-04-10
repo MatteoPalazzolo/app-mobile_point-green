@@ -1,4 +1,4 @@
-import { t_PinInfo, t_CardData } from "./typePinScreen";
+import { t_PinInfo, t_CardData } from "./typePinsScreen";
 
 var mult = 0;
 function addKey(data: t_PinInfo[]) {

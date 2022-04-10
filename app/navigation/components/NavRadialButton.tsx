@@ -4,15 +4,15 @@ import { View, Text, StyleSheet, TouchableOpacity, Animated, Easing } from 'reac
 // CUSTOM
 import { palette, t_ColorTheme, ThemeContext } from "../../constants/Colors";
 import { t_NavButton, t_Vector2 } from "../../constants/Types";
-import { t_RootStackParamList, t_Screen } from '../screens';
 import { NavigationContainerRefWithCurrent } from '@react-navigation/native';
+import { t_Navigation, t_Screen } from '../typeNavigation';
 
 
 interface i_NavRadialButton {
   funcRegister: Function[],
   animationOptions: { endPos: t_Vector2, radius: number, openTime: number },
   screenInfo: t_Screen,
-  navigation: NavigationContainerRefWithCurrent<t_RootStackParamList>,
+  navigation: t_Navigation,
 }
 export default function NavRadialButton({ funcRegister, animationOptions, screenInfo, navigation }: i_NavRadialButton) {
 
@@ -23,7 +23,6 @@ export default function NavRadialButton({ funcRegister, animationOptions, screen
   ******************/
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const styles = getStyle(colorTheme);
-
 
   /****************** 
    * ANIMATION 
