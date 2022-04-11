@@ -1,6 +1,6 @@
 // REACT
-import React, { createContext, useState } from "react";
-import { StyleSheet, StatusBar, Platform, useColorScheme, Text, View } from 'react-native';
+import React from "react";
+import { useColorScheme } from 'react-native';
 import Navigator from './app/navigation/Navigator';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';

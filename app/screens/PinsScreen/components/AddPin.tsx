@@ -1,23 +1,24 @@
 // REACT
-import React, { useContext } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 // CUSTOM
 import { ThemeContext, palette, t_ColorTheme } from "../../../constants/Colors";
-import { NavigationContext } from '../../../navigation/contextNavigation';
 import { t_Navigation } from '../../../navigation/typeNavigation';
 
 
 interface i_AddPin { }
 export default function AddPin({ }: i_AddPin) {
 
-  const navigation: t_Navigation = useContext(NavigationContext);
+  const navigation: t_Navigation = useNavigation();
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const styles = getStyle(colorTheme);
 
-  console.log(navigation);
+
+  const onBtnPress = useCallback(() => navigation.navigate('PinCreation'), []);
 
   return (
-    <Pressable style={[styles.container, styles.touchOpacity]} onPress={() => console.log("ADD PIN")}>
+    <Pressable style={[styles.container, styles.touchOpacity]} onPress={onBtnPress}>
       <View style={[styles.container, styles.button]}>
         <Text style={styles.addIcon}>+</Text>
         <Text style={styles.text}>ADD PIN</Text>

@@ -1,15 +1,12 @@
 // REACT
 import React, { FC, useCallback, useContext, useMemo, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
 // CUSTOM
-import { t_NavButton, t_Vector2 } from '../../constants/Types';
+import { t_Vector2 } from '../../constants/Types';
 import { palette, t_ColorTheme, ThemeContext } from '../../constants/Colors';
 import NavRadialButton from './NavRadialButton';
 import { screens } from '../screens';
-import { NavigationContainerRefWithCurrent } from '@react-navigation/native';
-import { t_Navigation, t_NavScreen, t_Screen } from '../typeNavigation';
-import { SvgProps } from 'react-native-svg';
+import { t_Navigation, t_NavScreen } from '../typeNavigation';
 
 
 interface i_NavRadialMenu { navContainerRef: t_Navigation }
@@ -53,8 +50,13 @@ export default function NavRadialMenu({ navContainerRef }: i_NavRadialMenu) {
   }
 
   navContainerRef.addListener('state', e => {
-    if (e.data.state)
+
+    const name = navContainerRef.getCurrentRoute()?.name;
+    const item = toDisplayScreens.find(e => e.label === name);
+
+    if (item && e.data.state)
       triggerNavMenu();
+
   });
 
   return (
