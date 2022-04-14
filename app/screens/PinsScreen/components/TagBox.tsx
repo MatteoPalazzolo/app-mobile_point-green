@@ -17,7 +17,7 @@ function TagBox({ value }: i_TagBox) {
 
   return (
     <View style={styles.tagBox}>
-      <Text style={styles.text} numberOfLines={1}>{toCapitalCase(value)}</Text>
+      <Text style={styles.text} numberOfLines={1}>{value}</Text>
     </View>
   );
 }
@@ -39,11 +39,6 @@ export default function TagsList({ tags, style }: i_TagsList) {
       ))}
     </View>
   );
-}
-
-
-function toCapitalCase(value: string): string {
-  return value.toLowerCase().replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
 }
 
 const getStyle = (colorTheme: t_ColorTheme) => {
@@ -76,6 +71,7 @@ const getStyle = (colorTheme: t_ColorTheme) => {
       fontSize: 18,
       position: 'relative',
       bottom: 1,
+      textTransform: 'capitalize',
     },
   });
 }

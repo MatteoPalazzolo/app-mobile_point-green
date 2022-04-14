@@ -14,7 +14,6 @@ export default function AddPin({ }: i_AddPin) {
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const styles = getStyle(colorTheme);
 
-
   const onBtnPress = useCallback(() => navigation.navigate('PinCreation'), []);
 
   return (

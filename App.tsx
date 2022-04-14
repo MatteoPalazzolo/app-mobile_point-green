@@ -5,7 +5,7 @@ import Navigator from './app/navigation/Navigator';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 // CUSTOM
-import { toTheme, ThemeContext, t_ColorTheme } from "./app/constants/Colors";
+import { ThemeContext, t_ColorTheme } from "./app/constants/Colors";
 
 
 export default function App() {
@@ -14,14 +14,13 @@ export default function App() {
   /*
   const [colorTheme, setColorTheme] = useState<t_ColorTheme>("dark");
   function toggleColorTheme() {
-    setColorTheme(previousState => previousState == "light" ? "dark" : "light");
+    setColorTheme(previousState => previousState === "light" ? "dark" : "light");
   } */
-  const themeContext = ThemeContext;
   const colorScheme = useColorScheme(); //returns "light"
-  const colorTheme: t_ColorTheme = 'light' || toTheme(colorScheme);
+  const colorTheme: t_ColorTheme = 'light' || colorScheme;
 
   // FONTS
-  let [fontsLoaded] = useFonts({
+  const [fontsLoaded] = useFonts({
     'Coin-Normal': require('./app/assets/fonts/RedHatDisplay.ttf'),/*
     'Raleway': 'https://fonts.googleapis.com/css2?family=Raleway&display=swap',*/
   });
@@ -30,8 +29,8 @@ export default function App() {
     return <AppLoading />
 
   return (
-    <themeContext.Provider value={colorTheme}>
+    <ThemeContext.Provider value={colorTheme}>
       <Navigator />
-    </themeContext.Provider>
+    </ThemeContext.Provider>
   );
 }

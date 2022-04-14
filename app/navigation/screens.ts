@@ -5,6 +5,8 @@ import ProfileScreen from "../screens/ProfileScreen/ProfileScreen";
 import PinScreen from "../screens/PinsScreen/PinsScreen";
 import SettingsScreen from "../screens/SettingsScreen/SettingsScreen";
 import AchievementsScreen from "../screens/AchievementsScreen/AchievementsScreen";
+import PinCreationScreen from "../screens/PinsScreen/PinCreationScreen/PinCreationScreen";
+import PinInfoScreen from "../screens/PinsScreen/PinInfoScreen/PinInfoScreen";
 
 // ICONS
 import HomeIcon from "./nav_icons/HomeIcon";
@@ -14,7 +16,8 @@ import PinIcon from "./nav_icons/PinIcon";
 import SettingsIcon from "./nav_icons/SettingsIcon";
 import AchievementIcon from "./nav_icons/AchievementIcon";
 import TrophyIcon from "./nav_icons/TrophyIcon";
-import PinCreationScreen from "../screens/PinCreationScreen/PinCreationScreen";
+
+// TYPES
 import { t_Screen } from "./typeNavigation";
 
 
@@ -69,5 +72,12 @@ export const screens: t_Screen[] = [
     options: {},
     navbar: false,
   },
+  {
+    label: "PinInfo",
+    icon: undefined,
+    screen: { type: PinInfoScreen, props: {} },
+    options: {},
+    navbar: false,
+  }
 ];
 

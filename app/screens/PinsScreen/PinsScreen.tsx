@@ -2,8 +2,9 @@
 import React, { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, BackHandler, FlatList, Dimensions, StatusBar, SafeAreaView, Platform, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
 // CUSTOM
-import { toTheme, palette, ThemeContext, t_ColorTheme } from "../../constants/Colors";
+import { palette, ThemeContext, t_ColorTheme } from "../../constants/Colors";
 import { } from "../../constants/Types";
+import { safeArea } from '../../utilities/StylesPattern';
 // COMPONENTS
 import AddPin from './components/AddPin';
 import PinCard from './components/PinCard';
@@ -11,7 +12,7 @@ import PinTabs from './components/PinTabs';
 import { t_CardData, t_OnScrollEventHandler, t_Tabs } from './typePinsScreen';
 import { usePinScreen } from './usePinsScreen';
 
-const { width, height } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
 interface i_PinsScreen { }
 export default function PinScreen({ }: i_PinsScreen) {
@@ -79,9 +80,7 @@ export default function PinScreen({ }: i_PinsScreen) {
 const getStyle = (colorTheme: t_ColorTheme) => {
   const plt = palette[colorTheme];
   return StyleSheet.create({
-    safeArea: {
-      marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    },
+    ...safeArea,
     tabs: {
       alignSelf: 'center',
       marginTop: 12,

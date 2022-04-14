@@ -16,7 +16,7 @@ const stack = createNativeStackNavigator<t_RootStackParamList>();
 interface i_Navigation { }
 export default function Navigation({ }: i_Navigation): JSX.Element {
 
-  const colorTheme: t_ColorTheme = useContext(ThemeContext);
+  //const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const navContainerRef = useNavigationContainerRef<t_RootStackParamList>();
 
   return (
@@ -43,7 +43,9 @@ const screenOptions = {
   headerShown: false,
 }
 
+/*
 const getStyle = (colorTheme: t_ColorTheme) => (
   StyleSheet.create({
   })
 );
+*/

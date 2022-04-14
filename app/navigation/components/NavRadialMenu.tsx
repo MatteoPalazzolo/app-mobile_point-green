@@ -1,12 +1,12 @@
 // REACT
-import React, { FC, useCallback, useContext, useMemo, useState } from 'react';
+import React, { FC, useCallback, useContext, useMemo, useReducer, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 // CUSTOM
 import { t_Vector2 } from '../../constants/Types';
 import { palette, t_ColorTheme, ThemeContext } from '../../constants/Colors';
 import NavRadialButton from './NavRadialButton';
 import { screens } from '../screens';
-import { t_Navigation, t_NavScreen } from '../typeNavigation';
+import { t_NavbarActionType, t_Navigation, t_NavScreen } from '../typeNavigation';
 
 
 interface i_NavRadialMenu { navContainerRef: t_Navigation }
@@ -33,31 +33,33 @@ export default function NavRadialMenu({ navContainerRef }: i_NavRadialMenu) {
     })), []);
   const buttonEndCoords: t_Vector2[] = useMemo(() => calcButtonsTargetPos(), []);
 
-
   // ColorTheme
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const styles = getStyle(colorTheme);
 
+
   /****************** 
    * RENDER 
   ******************/
-  const [menuOpen, setMenuOpen] = useState(true);
+
   const btnAnimationRegister: ((type: boolean) => void)[] = useState([])[0];
 
-  function triggerNavMenu() {
-    btnAnimationRegister.forEach(e => e(menuOpen));
-    setMenuOpen(!menuOpen);
-  }
+  const menuReducer = useCallback((state: { open: boolean }, action: { type: t_NavbarActionType }) => {
+    let nextState = false;
+    switch (action.type) {
+      case 'open':
+        nextState = true;
+      case 'close':
+        nextState = false;
+      case 'switch':
+        nextState = !state.open;
+    }
+    btnAnimationRegister.forEach(e => e(nextState));
+    return { open: nextState };
+  }, [btnAnimationRegister]);
 
-  navContainerRef.addListener('state', e => {
+  const [menuOpen, dispatchMenu] = useReducer(menuReducer, { open: false }, undefined);
 
-    const name = navContainerRef.getCurrentRoute()?.name;
-    const item = toDisplayScreens.find(e => e.label === name);
-
-    if (item && e.data.state)
-      triggerNavMenu();
-
-  });
 
   return (
     <View style={styles.container}>
@@ -68,11 +70,12 @@ export default function NavRadialMenu({ navContainerRef }: i_NavRadialMenu) {
           animationOptions={{ endPos: buttonEndCoords[i], radius: radius, openTime: openTime }}
           screenInfo={toDisplayScreens[i]}
           navigation={navContainerRef}
+          closeMenu={() => dispatchMenu({ type: 'close' })}
           key={i} />
       ))}
 
       <TouchableOpacity
-        onPress={triggerNavMenu}
+        onPress={() => dispatchMenu({ type: 'switch' })}
         style={[styles.buttonTransform, styles.menuButton]}
         activeOpacity={0.9}>
         <homeScreen.icon width={36} height={36} color={palette[colorTheme].dominant} />
@@ -82,9 +85,11 @@ export default function NavRadialMenu({ navContainerRef }: i_NavRadialMenu) {
   );
 }
 
+
 /****************** 
  * STYLE 
 ******************/
+
 const getStyle = (colorTheme: t_ColorTheme) => (
   StyleSheet.create({
     container: {

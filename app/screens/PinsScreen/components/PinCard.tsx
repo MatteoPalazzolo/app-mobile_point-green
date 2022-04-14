@@ -1,5 +1,5 @@
 // REACT
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 // CONSTS
 import { palette, ThemeContext, t_ColorTheme } from "../../../constants/Colors";
@@ -13,6 +13,8 @@ import IconInfoBox from './IconInfoBox';
 import RatingsBox from './RatingsBox';
 import TagsList from './TagBox';
 import { t_PinInfo } from '../typePinsScreen';
+import { useNavigation } from '@react-navigation/native';
+import { t_Navigation } from '../../../navigation/typeNavigation';
 
 
 interface i_PinCard {
@@ -20,6 +22,7 @@ interface i_PinCard {
 }
 export default function PinCard({ cardInfo }: i_PinCard) {
 
+  const navigation: t_Navigation = useNavigation();
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const styles = getStyle(colorTheme);
 
@@ -27,17 +30,19 @@ export default function PinCard({ cardInfo }: i_PinCard) {
 
   const { imageURL, title, distance, value, visits, tags, ratings } = cardInfo;
 
+  const onBtnPress = useCallback(() => navigation.navigate('PinInfo', { cardInfo }), []);
+
   return (
     <TouchableOpacity
       activeOpacity={1}
       style={styles.card}
-      onPress={() => console.log("CARD")}
+      onPress={onBtnPress}
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}>
       <View style={styles.container}>
         <Image style={[styles.image, { opacity: pressed ? .8 : 1 }]} source={{ uri: imageURL }} />
         <View style={styles.infoBox}>
-          <Text style={styles.title}>{title.toUpperCase()}</Text>
+          <Text style={styles.title}>{title}</Text>
           <View style={styles.coordsBox}>
             <IconInfoBox icon={<FontAwesome5 name="ruler" size={24} />} value={prettifyDistance(distance)} />
             <IconInfoBox icon={<Ionicons name="people" size={31} />} value={prettifyUnits(visits, 'ppl')} />
@@ -98,6 +103,7 @@ const getStyle = (colorTheme: t_ColorTheme) => {
       textAlign: 'center',
       marginTop: 16,
       marginBottom: 15,
+      textTransform: 'uppercase',
     },
     coordsBox: {
       display: 'flex',

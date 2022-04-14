@@ -4,17 +4,17 @@ import { View, Text, StyleSheet, TouchableOpacity, Animated, Easing } from 'reac
 // CUSTOM
 import { palette, t_ColorTheme, ThemeContext } from "../../constants/Colors";
 import { t_NavButton, t_Vector2 } from "../../constants/Types";
-import { NavigationContainerRefWithCurrent } from '@react-navigation/native';
-import { t_Navigation, t_Screen } from '../typeNavigation';
+import { t_Navigation, t_NavScreen, t_Screen } from '../typeNavigation';
 
 
 interface i_NavRadialButton {
   funcRegister: Function[],
   animationOptions: { endPos: t_Vector2, radius: number, openTime: number },
-  screenInfo: t_Screen,
+  screenInfo: t_NavScreen,
   navigation: t_Navigation,
+  closeMenu: () => void;
 }
-export default function NavRadialButton({ funcRegister, animationOptions, screenInfo, navigation }: i_NavRadialButton) {
+export default function NavRadialButton({ funcRegister, animationOptions, screenInfo, navigation, closeMenu }: i_NavRadialButton) {
 
   const { endPos, radius, openTime } = animationOptions;
 
@@ -68,7 +68,7 @@ export default function NavRadialButton({ funcRegister, animationOptions, screen
   }, []);
 
   function loadNewScreen() {
-    console.log(screenInfo.label);
+    closeMenu();
     navigation.navigate(screenInfo.label);
   }
 
@@ -78,7 +78,7 @@ export default function NavRadialButton({ funcRegister, animationOptions, screen
   ******************/
   const transform = [{ translateX: posX }, { translateY: posY }]
   return (
-    <Animated.View style={[styles.buttonTransform, , { transform }]}>
+    <Animated.View style={[styles.buttonTransform, { transform }]}>
       <TouchableOpacity
         style={[styles.navButton, styles.touchableOpacityTransform]}
         onPress={loadNewScreen}
