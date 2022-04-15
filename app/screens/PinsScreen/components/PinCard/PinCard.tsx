@@ -2,19 +2,19 @@
 import React, { useCallback, useContext, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 // CONSTS
-import { palette, ThemeContext, t_ColorTheme } from "../../../constants/Colors";
-import { } from "../../../constants/Types";
+import { palette, ThemeContext, t_ColorTheme } from "../../../../constants/Colors";
+import { } from "../../../../constants/Types";
 // ICONS
 import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 // UTILITIES
-import { prettifyDistance, prettifyUnits } from '../../../utilities/PrettifyData';
+import { prettifyDistance, prettifyUnits } from '../../../../utilities/PrettifyData';
 // COMPONENTS
-import IconInfoBox from './IconInfoBox';
-import RatingsBox from './RatingsBox';
-import TagsList from './TagBox';
-import { t_PinInfo } from '../typePinsScreen';
+import IconInfoBox from './components/IconInfoBox';
+import { t_PinInfo } from '../../typePinsScreen';
 import { useNavigation } from '@react-navigation/native';
-import { t_Navigation } from '../../../navigation/typeNavigation';
+import { t_Navigation } from '../../../../navigation/typeNavigation';
+import TagsList from './components/TagBox';
+import RatingsBox from './components/RatingsBox';
 
 
 interface i_PinCard {

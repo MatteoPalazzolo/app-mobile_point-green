@@ -3,13 +3,13 @@ import React, { useCallback, useContext, useMemo, useRef, useState } from 'react
 import { View, Text, StyleSheet, ScrollView, BackHandler, FlatList, Dimensions, StatusBar, SafeAreaView, Platform, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
 // CUSTOM
 import { palette, ThemeContext, t_ColorTheme } from "../../constants/Colors";
-import { } from "../../constants/Types";
+import { t_OnScrollEventHandler } from "../../constants/Types";
 import { safeArea } from '../../utilities/StylesPattern';
 // COMPONENTS
 import AddPin from './components/AddPin';
-import PinCard from './components/PinCard';
+import PinCard from './components/PinCard/PinCard';
 import PinTabs from './components/PinTabs';
-import { t_CardData, t_OnScrollEventHandler, t_Tabs } from './typePinsScreen';
+import { t_CardData, t_Tabs } from './typePinsScreen';
 import { usePinScreen } from './usePinsScreen';
 
 const { width } = Dimensions.get('screen');
@@ -34,7 +34,7 @@ export default function PinScreen({ }: i_PinsScreen) {
   const [currentTab, setCurrentTab] = useState<t_Tabs>("Feed");
 
   const onScroll: t_OnScrollEventHandler = useCallback(
-    (event) => {
+    event => {
       if (clicked) return;
       const posX = event.nativeEvent.contentOffset.x;
       let i = 0;
@@ -47,6 +47,21 @@ export default function PinScreen({ }: i_PinsScreen) {
     },
     []);
 
+  const renderCard = useCallback(({ item }: { item: t_CardData }) => (
+    item.key % 100 === 0 ? <AddPin /> : <PinCard cardInfo={item.content} />
+  ), []);
+
+  const renderPage = useCallback(({ item }) => (
+    <View style={styles.cardContainer}>
+      <FlatList
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+        data={item}
+        renderItem={renderCard}
+      />
+    </View>
+  ), []);
+
   return (
     <SafeAreaView style={[styles.safeArea]}>
       <PinTabs
@@ -54,7 +69,8 @@ export default function PinScreen({ }: i_PinsScreen) {
         switchTab={switchTab}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
-        style={styles.tabs} />
+        style={styles.tabs}
+      />
       <FlatList
         onScrollEndDrag={onScroll}
         ref={flatListRef}
@@ -63,16 +79,8 @@ export default function PinScreen({ }: i_PinsScreen) {
         bounces={false}
         showsHorizontalScrollIndicator={false}
         data={tabScreens}
-        renderItem={({ item }) => (
-          <View style={styles.cardContainer}>
-            <FlatList
-              style={styles.scrollView}
-              showsVerticalScrollIndicator={false}
-              data={item}
-              renderItem={({ item }: { item: t_CardData }) => item.key % 100 === 0 ? <AddPin /> : <PinCard cardInfo={item.content} />}
-            />
-          </View>
-        )} />
+        renderItem={renderPage}
+      />
     </SafeAreaView>
   );
 }

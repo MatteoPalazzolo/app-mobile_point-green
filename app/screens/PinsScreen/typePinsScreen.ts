@@ -1,5 +1,3 @@
-import { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
-
 export type t_PinInfo = {
   imageURL: string,
   title: string,
@@ -16,5 +14,3 @@ export type t_CardData = {
 };
 
 export type t_Tabs = "Feed" | "Mine" | "History";
-
-export type t_OnScrollEventHandler = (event: NativeSyntheticEvent<NativeScrollEvent>) => void;

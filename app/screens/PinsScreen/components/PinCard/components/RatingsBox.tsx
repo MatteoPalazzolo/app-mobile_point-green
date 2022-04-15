@@ -3,9 +3,7 @@ import { Entypo, FontAwesome } from '@expo/vector-icons';
 import React, { useContext, useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 // CUSTOM
-import { palette, ThemeContext, t_ColorTheme } from "../../../constants/Colors";
-import { } from "../../../constants/Types";
-
+import { palette, ThemeContext, t_ColorTheme } from "../../../../../constants/Colors";
 
 
 interface i_RatingStar {
