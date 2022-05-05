@@ -8,32 +8,33 @@ import { palette, ThemeContext, t_ColorTheme } from "../../../../../constants/Co
 
 interface i_RatingStar {
   value: boolean,
+  starSize: number,
 }
-function RatingStar({ value }: i_RatingStar) {
+function RatingStar({ value, starSize }: i_RatingStar) {
 
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const plt = palette[colorTheme];
-  const size = 45;
 
   if (value)
-    return <Entypo name="star" size={size} color={plt.complementary} />
+    return <Entypo name="star" size={starSize} color={plt.complementary} />
   else
-    return <Entypo name="star-outlined" size={size} color={plt.accent} />
+    return <Entypo name="star-outlined" size={starSize} color={plt.accent} />
 }
 
 
 interface i_RatingsBox {
   value: number,
-  style: {},
+  starSize: number,
+  style?: {},
 }
-export default function RatingsBox({ value, style }: i_RatingsBox) {
+export default function RatingsBox({ value, starSize, style }: i_RatingsBox) {
 
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const styles = getStyle(colorTheme);
   const plt = palette[colorTheme];
 
   const starsList = useMemo(() => Array(5).fill(0).map((e, i) => (
-    <RatingStar value={i < value} key={i} />
+    <RatingStar value={i < value} starSize={starSize} key={i} />
   )), [value]);
 
   return (
@@ -48,7 +49,6 @@ const getStyle = (colorTheme: t_ColorTheme) => {
 
   return StyleSheet.create({
     ratingsBox: {
-      width: '100%',
       paddingHorizontal: 80,
 
       display: 'flex',

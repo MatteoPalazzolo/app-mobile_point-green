@@ -36,6 +36,6 @@ const getStyle = (colorTheme: t_ColorTheme) => {
     },
     focus: {
       backgroundColor: plt.complementary,
-    }
+    },
   });
 }

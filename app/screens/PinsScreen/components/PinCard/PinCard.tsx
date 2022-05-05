@@ -49,7 +49,7 @@ export default function PinCard({ cardInfo }: i_PinCard) {
             <IconInfoBox icon={<FontAwesome5 name="coins" size={24} />} value={prettifyUnits(value, '$')} />
           </View>
           <TagsList tags={tags} style={styles.tagsList} />
-          <RatingsBox value={ratings} style={styles.ratingsBox} />
+          <RatingsBox value={ratings} starSize={45} style={styles.ratingsBox} />
         </View>
       </View>
     </TouchableOpacity>
@@ -72,13 +72,13 @@ const getStyle = (colorTheme: t_ColorTheme) => {
   return StyleSheet.create({
     card: {
       backgroundColor: 'white',
-      borderRadius: borderRadius,
+      borderRadius,
       ...cardShadow,
 
       marginBottom: 35,
     },
     container: {
-      borderRadius: borderRadius,
+      borderRadius,
 
       backgroundColor: plt.dominant,
       /*
@@ -94,7 +94,7 @@ const getStyle = (colorTheme: t_ColorTheme) => {
     },
     infoBox: {
       backgroundColor: plt.dominant,
-      borderRadius: borderRadius,
+      borderRadius,
       position: 'relative',
       bottom: 15,
     },
