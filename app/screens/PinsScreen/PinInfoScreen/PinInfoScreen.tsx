@@ -1,9 +1,9 @@
 // REACT
 import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { FontDisplay } from 'expo-font';
-import React, { useContext } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, Modal, Pressable, TouchableOpacityBase, TouchableOpacity } from 'react-native';
+import Button from '../../../components/Button';
 // CUSTOM
 import { palette, ThemeContext, t_ColorTheme } from "../../../constants/Colors";
 import { t_RootStackParamList } from '../../../navigation/typeNavigation';
@@ -13,7 +13,7 @@ import IconInfoBox from '../components/PinCard/components/IconInfoBox';
 import RatingsBox from '../components/PinCard/components/RatingsBox';
 import TagsList from '../components/PinCard/components/TagBox';
 import { t_Comment } from '../typePinsScreen';
-import AddComment from './components/AddComment';
+import CommentModal from './components/AddCommentModal';
 import Carousel from './components/Carousel';
 import Comment from './components/Comment';
 import Separator from './components/Separator';
@@ -99,7 +99,10 @@ Dormo assieme agli angeli e mi sveglio con un altro`,
     ...cardInfo,
   }
 
-  return (
+  const [visible, setVisible] = useState(false);
+
+  return (<>
+    <CommentModal visible={visible} setVisible={setVisible} />
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <Carousel images={images} />
       <Text style={styles.title}>{info.title}</Text>
@@ -114,11 +117,12 @@ Dormo assieme agli angeli e mi sveglio con un altro`,
       <TagsList tags={info.tags} style={styles.tagsList} />
       <RatingsBox value={info.ratings} starSize={45} style={styles.ratingsBox} />
       <Separator style={styles.separator}>Comments</Separator>
+      <Button text='ADD COMMENT' fontSize={18} callback={() => setVisible(true)} style={styles.addComment} />
       <View style={styles.commentsBox}>
-        <AddComment />
         {commentInfos.map((e, i) => <Comment commentInfo={e} style={styles.comment} key={'comment' + i} />)}
       </View>
     </ScrollView>
+  </>
   );
 }
 
@@ -166,10 +170,17 @@ const getStyle = (colorTheme: t_ColorTheme) => {
       marginTop: 12,
     },
     commentsBox: {
-      paddingHorizontal: '4%'
+      marginLeft: '4%',
+      marginRight: '8%',
+    },
+    addComment: {
+      width: '90%',
+      alignSelf: 'center',
+      marginVertical: 20,
     },
     comment: {
       marginBottom: 20,
-    }
+    },
+
   });
 };

@@ -1,7 +1,7 @@
 // REACT
 import { Entypo, Ionicons } from '@expo/vector-icons';
-import React, { useCallback, useContext, useReducer } from 'react';
-import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
+import React, { useCallback, useContext, useReducer, useState } from 'react';
+import { View, StyleSheet, Text, Image, TouchableOpacity, Pressable } from 'react-native';
 // CUSTOM
 import { palette, ThemeContext, t_ColorTheme } from "../../../../constants/Colors";
 import RatingsBox from '../../components/PinCard/components/RatingsBox';
@@ -34,6 +34,7 @@ export default function Comment({ commentInfo: data, style }: i_Comment) {
 
 
   const [vState, votesDispatch] = useReducer(votesReducer, { up: false, down: false }, undefined);
+  const [collapse, setCollapse] = useState(true);
 
   return (
     <View style={style}>
@@ -45,7 +46,7 @@ export default function Comment({ commentInfo: data, style }: i_Comment) {
         </View>
       </View>
       <Line style={styles.line} />
-      <Text style={styles.comment} numberOfLines={5}>{data.comment}</Text>
+      <Pressable onPressIn={() => setCollapse(p => !p)}><Text style={styles.comment} numberOfLines={collapse ? 5 : undefined}>{data.comment}</Text></Pressable>
       <View style={styles.footer}>
         <View style={styles.votes}>
           <TouchableOpacity style={styles.votesBtn} onPress={() => votesDispatch({ toUp: true })}>
@@ -94,8 +95,8 @@ const getStyle = (colorTheme: t_ColorTheme) => {
       width: '96%',
     },
     comment: {
-      paddingTop: 4,
-      paddingHorizontal: '3%',
+      marginTop: 5,
+      marginHorizontal: '4%',
     },
     footer: {
       display: 'flex',

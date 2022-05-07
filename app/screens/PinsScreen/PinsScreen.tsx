@@ -1,12 +1,14 @@
 // REACT
+import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, BackHandler, FlatList, Dimensions, StatusBar, SafeAreaView, Platform, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
+import Button from '../../components/Button';
 // CUSTOM
 import { palette, ThemeContext, t_ColorTheme } from "../../constants/Colors";
 import { t_OnScrollEventHandler } from "../../constants/Types";
+import { t_Navigation } from '../../navigation/typeNavigation';
 import { safeArea } from '../../utilities/StylesPattern';
 // COMPONENTS
-import AddPin from './components/AddPin';
 import PinCard from './components/PinCard/PinCard';
 import PinTabs from './components/PinTabs';
 import { t_CardData, t_Tabs } from './typePinsScreen';
@@ -47,8 +49,12 @@ export default function PinScreen({ }: i_PinsScreen) {
     },
     []);
 
+  const navigation: t_Navigation = useNavigation();
+  const onBtnPress = useCallback(() => navigation.navigate('PinCreation'), []);
   const renderCard = useCallback(({ item }: { item: t_CardData }) => (
-    item.key % 100 === 0 ? <AddPin /> : <PinCard cardInfo={item.content} />
+    item.key % 100 === 0 ?
+      <Button text='ADD PIN' callback={onBtnPress} style={styles.addPin} /> :
+      <PinCard cardInfo={item.content} />
   ), []);
 
   const renderPage = useCallback(({ item }) => (
@@ -106,5 +112,9 @@ const getStyle = (colorTheme: t_ColorTheme) => {
       backgroundColor: plt.dominant,
     },
     text: { textAlign: "center" },
+    addPin: {
+      marginTop: 15,
+      marginBottom: 20,
+    }
   });
 }
