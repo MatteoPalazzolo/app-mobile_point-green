@@ -53,7 +53,7 @@ export default function PinScreen({ }: i_PinsScreen) {
   const onBtnPress = useCallback(() => navigation.navigate('PinCreation'), []);
   const renderCard = useCallback(({ item }: { item: t_CardData }) => (
     item.key % 100 === 0 ?
-      <Button text='ADD PIN' callback={onBtnPress} style={styles.addPin} /> :
+      <Button text='ADD PIN' onPress={onBtnPress} style={styles.addPin} /> :
       <PinCard cardInfo={item.content} />
   ), []);
 

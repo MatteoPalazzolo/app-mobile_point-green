@@ -1,4 +1,4 @@
-import { t_Link } from "../../constants/Types";
+import { link } from "../../constants/Types";
 
 export type t_PinInfo = {
   imageURL: string,
@@ -13,16 +13,21 @@ export type t_PinInfo = {
 export type t_Comment = {
   user: string,
   date: string,
-  icon: t_Link,
+  icon: link,
   comment: string,
   upvotes: number,
   downvotes: number,
-  ratings: number,
+  rating: number,
 }
 
 export type t_CardData = {
   content: t_PinInfo,
   key: number,
 };
+
+export type t_imagesData = {
+  key: string,
+  url: link,
+}
 
 export type t_Tabs = "Feed" | "Mine" | "History";

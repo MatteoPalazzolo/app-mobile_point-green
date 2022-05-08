@@ -58,7 +58,7 @@ export default function Comment({ commentInfo: data, style }: i_Comment) {
             <Text>{data.downvotes + (vState.down ? 1 : 0)}</Text>
           </TouchableOpacity>
         </View>
-        <RatingsBox value={data.ratings} starSize={26} style={styles.ratings} />
+        <RatingsBox value={data.rating} starSize={26} style={styles.ratings} />
       </View>
     </View>
   );

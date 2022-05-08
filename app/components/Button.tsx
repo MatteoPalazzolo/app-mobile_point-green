@@ -5,21 +5,20 @@ import { palette, ThemeContext, t_ColorTheme } from '../constants/Colors';
 // CUSTOM
 
 
-
 interface i_Button {
   text: string,
   fontSize?: number,
-  callback: (event: GestureResponderEvent) => void,
+  onPress: (event: GestureResponderEvent) => void,
   style?: {},
 }
-export default function Button({ text, fontSize = 20, callback, style }: i_Button) {
+export default function Button({ text, onPress, fontSize = 20, style }: i_Button) {
 
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const styles = getStyle(colorTheme, fontSize);
   const plt = palette[colorTheme];
 
   return (
-    <TouchableOpacity activeOpacity={.8} onPress={callback}>
+    <TouchableOpacity activeOpacity={.8} onPress={onPress}>
       <View style={[styles.container, style]}>
         <Text style={styles.text}>{text}</Text>
         {/* <View style={styles.borderLine} /> */}

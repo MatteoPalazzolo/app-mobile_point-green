@@ -13,4 +13,4 @@ export type t_NavButton = {
 export type t_OnScrollEventHandler = (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
 
 
-export type t_Link = string;
+export type link = string;
