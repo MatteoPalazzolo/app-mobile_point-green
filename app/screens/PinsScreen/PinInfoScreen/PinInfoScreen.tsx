@@ -12,13 +12,12 @@ import { safeArea } from '../../../utilities/StylesPattern';
 import IconInfoBox from '../components/PinCard/components/IconInfoBox';
 import RatingsBox from '../components/PinCard/components/RatingsBox';
 import TagsList from '../components/PinCard/components/TagBox';
-import { t_Comment } from '../typePinsScreen';
 import CommentModal from './components/CommentModal';
 import Carousel from './components/Carousel';
 import Comment from './components/Comment';
 import Separator from './components/Separator';
-import { usePinInfoScreen } from './usePinInfoScreen';
 import IconBar from './components/IconBar';
+import { average } from '../../../utilities/Math';
 
 
 type t_PinInfoScreen = NativeStackScreenProps<t_RootStackParamList, 'PinInfo'>
@@ -27,19 +26,7 @@ export default function PinInfoScreen({ route, navigation }: t_PinInfoScreen) {
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const styles = getStyle(colorTheme);
   const params = route.params;
-
-  const { imagesData, commentsData } = usePinInfoScreen();
-
-  // TO TYPE
-  const info = {
-    description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Harum temporibus repellat fugiat! Perspiciatis placeat nemo repellat ad laudantium rerum corrupti.",
-    user: "Gigiovanni",
-    date: "15/04/2022",
-    like: false,
-    imagesData,
-    commentsData,
-    ...params.cardInfo,
-  }
+  const info = params.cardInfo;
 
   const [visible, setVisible] = useState(false);
 
@@ -58,11 +45,11 @@ export default function PinInfoScreen({ route, navigation }: t_PinInfoScreen) {
         <IconInfoBox icon={<FontAwesome5 name="coins" size={24} />} value={prettifyUnits(info.value, '$')} />
       </View>
       <TagsList tags={info.tags} style={styles.tagsList} />
-      <RatingsBox value={info.ratings} starSize={45} style={styles.ratingsBox} />
+      <RatingsBox value={Math.floor(average(info.ratings))} starSize={45} style={styles.ratingsBox} />
       <Separator style={styles.separator}>Comments</Separator>
       <Button text='ADD COMMENT' fontSize={18} onPress={() => setVisible(true)} style={styles.addComment} />
       <View style={styles.commentsBox}>
-        {commentsData.map((e, i) => <Comment commentInfo={e} style={styles.comment} key={'comment' + i} />)}
+        {info.commentsData.map((e, i) => <Comment commentInfo={e} style={styles.comment} key={'comment' + i} />)}
       </View>
     </ScrollView>
   </>

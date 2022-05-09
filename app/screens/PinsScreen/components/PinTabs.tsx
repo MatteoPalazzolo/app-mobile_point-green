@@ -67,7 +67,8 @@ const getStyle = (colorTheme: t_ColorTheme) => {
     text: {
       fontWeight: '300',
       fontSize: 26,
-      textAlign: 'center'
+      textAlign: 'center',
+      textTransform: 'capitalize',
     },
     separator: {
       width: 2, height: 26,

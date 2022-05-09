@@ -1,29 +1,24 @@
 import { link } from "../../constants/Types";
 
+
 export type t_PinInfo = {
-  imageURL: string,
+  type: t_Tabs,
   title: string,
   distance: number,
   visits: number,
   value: number,
   tags: string[],
-  ratings: number,
+  ratings: number[],
+  description: string,
+  user: string,
+  date: string,
+  like: boolean,
+  imagesData: t_imagesData[],
+  commentsData: t_Comment[],
+  key: string,
 }
-/* export type t_PinInfo = {
-  imageURL: string;
-  title: string;
-  distance: number;
-  visits: number;
-  value: number;
-  tags: string[];
-  ratings: number;
-  description: string;
-  user: string;
-  date: string;
-  like: boolean;
-  imagesData: t_imagesData[];
-  commentsData: t_Comment[];
-} */
+
+export type t_TabInfo = { data: t_PinInfo[], key: string };
 
 export type t_Comment = {
   user: string,
@@ -35,14 +30,9 @@ export type t_Comment = {
   rating: number,
 }
 
-export type t_CardData = {
-  content: t_PinInfo,
-  key: number,
-};
-
 export type t_imagesData = {
   key: string,
   url: link,
 }
 
-export type t_Tabs = "Feed" | "Mine" | "History";
+export type t_Tabs = "feed" | "mine" | "history";

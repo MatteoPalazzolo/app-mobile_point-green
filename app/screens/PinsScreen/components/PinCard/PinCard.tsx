@@ -15,6 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 import { t_Navigation } from '../../../../navigation/typeNavigation';
 import TagsList from './components/TagBox';
 import RatingsBox from './components/RatingsBox';
+import { average } from '../../../../utilities/Math';
 
 
 interface i_PinCard {
@@ -28,7 +29,7 @@ export default function PinCard({ cardInfo }: i_PinCard) {
 
   const [pressed, setPressed] = useState(false);
 
-  const { imageURL, title, distance, value, visits, tags, ratings } = cardInfo;
+  const { imagesData, title, distance, value, visits, tags, ratings } = cardInfo;
 
   const onBtnPress = useCallback(() => navigation.navigate('PinInfo', { cardInfo }), []);
 
@@ -40,7 +41,7 @@ export default function PinCard({ cardInfo }: i_PinCard) {
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}>
       <View style={styles.container}>
-        <Image style={[styles.image, { opacity: pressed ? .8 : 1 }]} source={{ uri: imageURL }} />
+        <Image style={[styles.image, { opacity: pressed ? .8 : 1 }]} source={{ uri: imagesData[0].url }} />
         <View style={styles.infoBox}>
           <Text style={styles.title}>{title}</Text>
           <View style={styles.coordsBox}>
@@ -49,7 +50,7 @@ export default function PinCard({ cardInfo }: i_PinCard) {
             <IconInfoBox icon={<FontAwesome5 name="coins" size={24} />} value={prettifyUnits(value, '$')} />
           </View>
           <TagsList tags={tags} style={styles.tagsList} />
-          <RatingsBox value={ratings} starSize={45} style={styles.ratingsBox} />
+          <RatingsBox value={Math.round(average(ratings))} starSize={45} style={styles.ratingsBox} />
         </View>
       </View>
     </TouchableOpacity>

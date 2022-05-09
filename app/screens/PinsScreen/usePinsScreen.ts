@@ -1,117 +1,42 @@
-import { t_PinInfo, t_CardData } from "./typePinsScreen";
+import { getPinData } from "./getDataPinsScreen";
+import { t_PinInfo, t_TabInfo } from "./typePinsScreen";
 
-var mult = 0;
-function addKey(data: t_PinInfo[]) {
-  mult++;
+const rawData: t_PinInfo[] = [
+  {
+    type: 'mine',
+    title: 'The Wood',
+    description: 'very nice place, gg!',
+    user: 'Me',
+    date: '09/05/2022',
+    like: false,
+    distance: 20,
+    visits: 400,
+    value: 400,
+    tags: ['boring', 'scary', 'morning', 'this must be quite long as test', 'nice planks', ''],
+    ratings: [3, 5, 1, 2, 2, 2, 2],
+    commentsData: [
+      {
+        user: 'Me',
+        icon: 'https://randomwordgenerator.com/img/picture-generator/54e7d04b4353a914f1dc8460962e33791c3ad6e04e507441722a72dc9645c7_640.jpg',
+        comment: 'body',
+        date: '09/05/2022',
+        upvotes: 0,
+        downvotes: 0,
+        rating: 3,
+      },
+    ],
+    imagesData: [
+      { key: 'card1_image1', url: 'https://randomwordgenerator.com/img/picture-generator/53e6d740425aa914f1dc8460962e33791c3ad6e04e507749772f79dd904ec6_640.jpg' },
+    ],
+    key: 'card_1',
+  },
+];
+
+
+export function usePinScreen(): t_TabInfo[] {
   return [
-    { // this is the ADD PIN button
-      imageURL: '',
-      title: '',
-      distance: 0,
-      visits: 0,
-      value: 0,
-      tags: [],
-      ratings: 0,
-    },
-    ...data,
-  ].map((e, i) => (
-    { content: e, key: i + 100 * mult }
-  ));
-}
-
-export function usePinScreen() {
-
-  const feedItems: t_PinInfo[] = [
-    {
-      imageURL: 'https://www.sgsgroup.it/-/media/global/images/structural-website-images/hero-images/hero-agri-forestry.jpg',
-      title: 'The Wood',
-      distance: 20,
-      visits: 400,
-      value: 400,
-      tags: ['boring', 'scary', 'morning', 'this must be quite long as test', 'nice planks', ''],
-      ratings: 3,
-    },
-    {
-      imageURL: 'https://www.pandotrip.com/wp-content/uploads/2013/05/Untitled-103-980x735.jpg',
-      title: 'The Flowers',
-      distance: 30,
-      visits: 1100,
-      value: 900,
-      tags: ['funny', 'funky', 'furry', 'fruit', 'flowers'],
-      ratings: 5,
-    },
-    {
-      imageURL: 'https://www.guidatorino.com/wp-content/uploads/2019/09/lazza-torino-venaria-2019.jpg',
-      title: 'Zzala',
-      distance: 1,
-      visits: 157,
-      value: 999,
-      tags: ['sono con te però...', 'non devi farmi male...', 'se sono cerbero...', 'verrai con me nell \'Ade...', 'ZZZalLa'],
-      ratings: 6,
-    }
+    { data: rawData.filter(e => e.type === 'feed'), key: 'feed_tab' },
+    { data: rawData.filter(e => e.type === 'mine'), key: 'mine_tab' },
+    { data: rawData.filter(e => e.type === 'history'), key: 'history_tab' },
   ];
-
-  const mineItems: t_PinInfo[] = [
-    {
-      imageURL: 'https://www.rocchette.com/wp-content/uploads/attrazioni-naturali-maremma.jpg',
-      title: 'My Zoo',
-      distance: 50,
-      visits: 660,
-      value: 7800,
-      tags: ['horse', 'horsy', 'bird', 'birdy', 'watching'],
-      ratings: 3,
-    },
-    {
-      imageURL: 'https://www.pandotrip.com/wp-content/uploads/2013/05/Untitled-103-980x735.jpg',
-      title: 'The Flowers',
-      distance: 30,
-      visits: 1100,
-      value: 900,
-      tags: ['funny', 'funky', 'furry', 'fruit', 'flowers'],
-      ratings: 5,
-    },
-    {
-      imageURL: 'https://static.tripzilla.com/thumb/2/8/92200_800x.jpg',
-      title: 'La New Zealand...',
-      distance: 0,
-      visits: 0,
-      value: 0,
-      tags: ['the only one', '', '', '', ''],
-      ratings: 2,
-    }
-  ];
-
-  const historyItems: t_PinInfo[] = [
-    {
-      imageURL: 'https://www.rocchette.com/wp-content/uploads/attrazioni-naturali-maremma.jpg',
-      title: 'My Zoo',
-      distance: 50,
-      visits: 660,
-      value: 7800,
-      tags: ['horse', 'horsy', 'bird', 'birdy', 'watching'],
-      ratings: 3,
-    },
-    {
-      imageURL: 'https://www.pandotrip.com/wp-content/uploads/2013/05/Untitled-103-980x735.jpg',
-      title: 'The Flowers',
-      distance: 30,
-      visits: 1100,
-      value: 900,
-      tags: ['funny', 'funky', 'furry', 'fruit', 'flowers'],
-      ratings: 5,
-    },
-    {
-      imageURL: 'https://static.tripzilla.com/thumb/2/8/92200_800x.jpg',
-      title: 'La New Zealand...',
-      distance: 0,
-      visits: 0,
-      value: 0,
-      tags: ['the only one'],
-      ratings: 2,
-    }
-  ];
-
-  const tabScreens: t_CardData[][] = [addKey(feedItems), addKey(mineItems), addKey(historyItems)];
-
-  return { tabScreens };
 }

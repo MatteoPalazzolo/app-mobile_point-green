@@ -1,7 +1,7 @@
 // REACT
 import { useNavigation } from '@react-navigation/native';
-import React, { useCallback, useContext, useMemo, useRef, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, BackHandler, FlatList, Dimensions, StatusBar, SafeAreaView, Platform, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
+import React, { useCallback, useContext, useRef, useState } from 'react';
+import { View, StyleSheet, FlatList, Dimensions, SafeAreaView, } from 'react-native';
 import Button from '../../components/Button';
 // CUSTOM
 import { palette, ThemeContext, t_ColorTheme } from "../../constants/Colors";
@@ -11,7 +11,7 @@ import { safeArea } from '../../utilities/StylesPattern';
 // COMPONENTS
 import PinCard from './components/PinCard/PinCard';
 import PinTabs from './components/PinTabs';
-import { t_CardData, t_Tabs } from './typePinsScreen';
+import { t_PinInfo, t_TabInfo, t_Tabs } from './typePinsScreen';
 import { usePinScreen } from './usePinsScreen';
 
 const { width } = Dimensions.get('screen');
@@ -22,18 +22,19 @@ export default function PinScreen({ }: i_PinsScreen) {
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const styles = getStyle(colorTheme);
 
-  const { tabScreens } = usePinScreen();
+  const data = usePinScreen();
 
   const [clicked, setClicked] = useState(false);
-  const flatListRef = useRef<FlatList<t_CardData[]>>(null);
+  const flatListRef = useRef<FlatList<any>>(null);
+
   const switchTab = useCallback((index: number): void => {
     setClicked(true);
     flatListRef.current?.scrollToOffset({ animated: true, offset: index * width });
     setClicked(false);
   }, []);
 
-  const tabs: t_Tabs[] = ["Feed", "Mine", "History"];
-  const [currentTab, setCurrentTab] = useState<t_Tabs>("Feed");
+  const tabs: t_Tabs[] = ["feed", "mine", "history"];
+  const [currentTab, setCurrentTab] = useState<t_Tabs>("feed");
 
   const onScroll: t_OnScrollEventHandler = useCallback(
     event => {
@@ -51,18 +52,19 @@ export default function PinScreen({ }: i_PinsScreen) {
 
   const navigation: t_Navigation = useNavigation();
   const onBtnPress = useCallback(() => navigation.navigate('PinCreation'), []);
-  const renderCard = useCallback(({ item }: { item: t_CardData }) => (
-    item.key % 100 === 0 ?
+
+  const renderCard = useCallback(({ item }: { item: t_PinInfo }) => (
+    !item ?
       <Button text='ADD PIN' onPress={onBtnPress} style={styles.addPin} /> :
-      <PinCard cardInfo={item.content} />
+      <PinCard cardInfo={item} />
   ), []);
 
-  const renderPage = useCallback(({ item }) => (
+  const renderPage = useCallback(({ item }: { item: t_TabInfo }) => (
     <View style={styles.cardContainer}>
       <FlatList
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
-        data={item}
+        data={item.data}
         renderItem={renderCard}
       />
     </View>
@@ -84,7 +86,7 @@ export default function PinScreen({ }: i_PinsScreen) {
         pagingEnabled
         bounces={false}
         showsHorizontalScrollIndicator={false}
-        data={tabScreens}
+        data={data}
         renderItem={renderPage}
       />
     </SafeAreaView>
