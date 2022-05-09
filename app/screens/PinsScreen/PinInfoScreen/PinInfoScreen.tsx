@@ -18,6 +18,7 @@ import Carousel from './components/Carousel';
 import Comment from './components/Comment';
 import Separator from './components/Separator';
 import { usePinInfoScreen } from './usePinInfoScreen';
+import IconBar from './components/IconBar';
 
 
 type t_PinInfoScreen = NativeStackScreenProps<t_RootStackParamList, 'PinInfo'>
@@ -34,6 +35,7 @@ export default function PinInfoScreen({ route, navigation }: t_PinInfoScreen) {
     description: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Harum temporibus repellat fugiat! Perspiciatis placeat nemo repellat ad laudantium rerum corrupti.",
     user: "Gigiovanni",
     date: "15/04/2022",
+    like: false,
     imagesData,
     commentsData,
     ...params.cardInfo,
@@ -44,6 +46,7 @@ export default function PinInfoScreen({ route, navigation }: t_PinInfoScreen) {
   return (<>
     <CommentModal visible={visible} setVisible={setVisible} commentsList={info.commentsData} />
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <IconBar />
       <Carousel images={info.imagesData} />
       <Text style={styles.title}>{info.title}</Text>
       <Text style={styles.description}>{info.description}</Text>

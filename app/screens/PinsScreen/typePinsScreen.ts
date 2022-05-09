@@ -9,6 +9,21 @@ export type t_PinInfo = {
   tags: string[],
   ratings: number,
 }
+/* export type t_PinInfo = {
+  imageURL: string;
+  title: string;
+  distance: number;
+  visits: number;
+  value: number;
+  tags: string[];
+  ratings: number;
+  description: string;
+  user: string;
+  date: string;
+  like: boolean;
+  imagesData: t_imagesData[];
+  commentsData: t_Comment[];
+} */
 
 export type t_Comment = {
   user: string,
