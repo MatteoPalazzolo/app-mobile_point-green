@@ -1,5 +1,5 @@
 // REACT
-import { Entypo, Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useCallback, useContext, useReducer, useState } from 'react';
 import { View, StyleSheet, Text, Image, TouchableOpacity, Pressable } from 'react-native';
 // CUSTOM
@@ -8,6 +8,7 @@ import RatingsBox from '../../components/PinCard/components/RatingsBox';
 import { t_Comment } from '../../typePinsScreen';
 import Line from './Line';
 
+const ICON_SIZE = 20;
 
 interface i_Comment { commentInfo: t_Comment, style?: {} }
 export default function Comment({ commentInfo: data, style }: i_Comment) {
@@ -29,7 +30,7 @@ export default function Comment({ commentInfo: data, style }: i_Comment) {
         up = false;
       }
 
-      return { up, down }
+      return { up, down };
     }, []);
 
 
@@ -50,12 +51,12 @@ export default function Comment({ commentInfo: data, style }: i_Comment) {
       <View style={styles.footer}>
         <View style={styles.votes}>
           <TouchableOpacity style={styles.votesBtn} onPress={() => votesDispatch({ toUp: true })}>
-            <Ionicons name={vState.up ? "arrow-up-circle" : "arrow-up-circle-outline"} size={24} color="black" />
-            <Text>{data.upvotes + (vState.up ? 1 : 0)}</Text>
+            <MaterialCommunityIcons name={vState.up ? "thumb-up" : "thumb-up-outline"} size={ICON_SIZE} color="black" />
+            <Text style={styles.votesText}>{data.upvotes + (vState.up ? 1 : 0)}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.votesBtn} onPress={() => votesDispatch({ toUp: false })}>
-            <Ionicons name={vState.down ? "arrow-down-circle" : "arrow-down-circle-outline"} size={24} color="black" />
-            <Text>{data.downvotes + (vState.down ? 1 : 0)}</Text>
+            <MaterialCommunityIcons name={vState.down ? "thumb-down" : "thumb-down-outline"} size={ICON_SIZE} color="black" />
+            <Text style={styles.votesText}>{data.downvotes + (vState.down ? 1 : 0)}</Text>
           </TouchableOpacity>
         </View>
         <RatingsBox value={data.rating} starSize={26} style={styles.ratings} />
@@ -122,5 +123,8 @@ const getStyle = (colorTheme: t_ColorTheme) => {
       flexDirection: 'row',
       marginLeft: 10,
     },
+    votesText: {
+      marginLeft: 5,
+    }
   });
 }

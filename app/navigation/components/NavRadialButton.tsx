@@ -1,10 +1,11 @@
 // REACT
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated, Easing } from 'react-native';
 // CUSTOM
 import { palette, t_ColorTheme, ThemeContext } from "../../constants/Colors";
 import { t_NavButton, t_Vector2 } from "../../constants/Types";
 import { t_Navigation, t_NavScreen, t_Screen } from '../typeNavigation';
+
 
 
 interface i_NavRadialButton {
@@ -27,8 +28,8 @@ export default function NavRadialButton({ funcRegister, animationOptions, screen
   /****************** 
    * ANIMATION 
   ******************/
-  const posX = useState(new Animated.Value(0))[0];
-  const posY = useState(new Animated.Value(0))[0];
+  const posX = useRef(new Animated.Value(0)).current;
+  const posY = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     function startAnimation(open: boolean): void {

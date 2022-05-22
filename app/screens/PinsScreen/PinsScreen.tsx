@@ -1,11 +1,10 @@
 // REACT
 import { useNavigation } from '@react-navigation/native';
-import React, { useCallback, useContext, useRef, useState } from 'react';
+import React, { useCallback, useContext, useReducer, useRef, useState } from 'react';
 import { View, StyleSheet, FlatList, Dimensions, SafeAreaView, } from 'react-native';
 import Button from '../../components/Button';
 // CUSTOM
 import { palette, ThemeContext, t_ColorTheme } from "../../constants/Colors";
-import { t_OnScrollEventHandler } from "../../constants/Types";
 import { t_Navigation } from '../../navigation/typeNavigation';
 import { safeArea } from '../../utilities/StylesPattern';
 // COMPONENTS
@@ -15,49 +14,44 @@ import { t_PinInfo, t_TabInfo, t_Tabs } from './typePinsScreen';
 import { usePinScreen } from './usePinsScreen';
 
 const { width } = Dimensions.get('screen');
+const TABS: t_Tabs[] = ["feed", "mine", "history"];
+
 
 interface i_PinsScreen { }
 export default function PinScreen({ }: i_PinsScreen) {
 
+  const navigation: t_Navigation = useNavigation();
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const styles = getStyle(colorTheme);
-
   const data = usePinScreen();
 
-  const [clicked, setClicked] = useState(false);
-  const flatListRef = useRef<FlatList<any>>(null);
-
-  const switchTab = useCallback((index: number): void => {
-    setClicked(true);
-    flatListRef.current?.scrollToOffset({ animated: true, offset: index * width });
-    setClicked(false);
+  const tabReducer = useCallback((state: { index: number, label: string }, action: { scrollX: number }) => {
+    for (let i = 0; i < TABS.length; i++) {
+      const distance = Math.abs(action.scrollX - width * i); // distance(scroll, i page)
+      if (distance < width * .5) {
+        console.log('PinTabs test 1');
+        return { index: i, label: TABS[i] }
+      }
+    }
+    console.log('PinTabs test 2');
+    return { index: 0, label: TABS[0] }
   }, []);
 
-  const tabs: t_Tabs[] = ["feed", "mine", "history"];
-  const [currentTab, setCurrentTab] = useState<t_Tabs>("feed");
+  const [tab, dispatch] = useReducer(tabReducer, { index: 0, label: TABS[0] }, undefined);
 
-  const onScroll: t_OnScrollEventHandler = useCallback(
-    event => {
-      if (clicked) return;
-      const posX = event.nativeEvent.contentOffset.x;
-      let i = 0;
-      for (i; i < tabs.length; i++) {
-        if (posX < (width * (i + 1)) + 1) {
-          break;
-        }
-      }
-      setCurrentTab(tabs[i]);
-    },
-    []);
 
-  const navigation: t_Navigation = useNavigation();
-  const onBtnPress = useCallback(() => navigation.navigate('PinCreation'), []);
+  const flatListRef = useRef<FlatList<any>>(null);
 
-  const renderCard = useCallback(({ item }: { item: t_PinInfo }) => (
-    !item ?
-      <Button text='ADD PIN' onPress={onBtnPress} style={styles.addPin} /> :
-      <PinCard cardInfo={item} />
-  ), []);
+  const setTab = useCallback((index: number): void => {
+    flatListRef.current?.scrollToOffset({ animated: true, offset: index * width });
+    dispatch({ scrollX: index * width });
+  }, [flatListRef.current]);
+
+
+  const renderCard = useCallback(({ item, index }: { item: t_PinInfo, index: number }) => (<>
+    {(index === 0) && <Button text='ADD PIN' onPress={() => navigation.navigate('PinCreation')} style={styles.addPin} />}
+    <PinCard cardInfo={item} />
+  </>), []);
 
   const renderPage = useCallback(({ item }: { item: t_TabInfo }) => (
     <View style={styles.cardContainer}>
@@ -73,14 +67,13 @@ export default function PinScreen({ }: i_PinsScreen) {
   return (
     <SafeAreaView style={[styles.safeArea]}>
       <PinTabs
-        tabs={tabs}
-        switchTab={switchTab}
-        currentTab={currentTab}
-        setCurrentTab={setCurrentTab}
+        tabs={TABS}
+        tab={tab}
+        setTab={setTab}
         style={styles.tabs}
       />
       <FlatList
-        onScrollEndDrag={onScroll}
+        onScroll={e => dispatch({ scrollX: e.nativeEvent.contentOffset.x })}
         ref={flatListRef}
         horizontal
         pagingEnabled

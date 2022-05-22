@@ -20,7 +20,7 @@ import IconBar from './components/IconBar';
 import { average } from '../../../utilities/Math';
 
 
-type t_PinInfoScreen = NativeStackScreenProps<t_RootStackParamList, 'PinInfo'>
+type t_PinInfoScreen = NativeStackScreenProps<t_RootStackParamList, 'PinInfo'>;
 export default function PinInfoScreen({ route, navigation }: t_PinInfoScreen) {
 
   const colorTheme: t_ColorTheme = useContext(ThemeContext);

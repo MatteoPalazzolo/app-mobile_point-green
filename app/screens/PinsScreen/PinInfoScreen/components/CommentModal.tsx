@@ -8,6 +8,8 @@ import * as Yup from 'yup'
 import { palette, ThemeContext, t_ColorTheme } from "../../../../constants/Colors";
 import Button from '../../../../components/Button';
 import { t_Comment } from '../../typePinsScreen';
+import { number } from 'yup/lib/locale';
+import RatingInput from './RatingInput';
 
 
 const MIN_COMMENT_LENGHT = 10;
@@ -16,9 +18,9 @@ const MAX_COMMENT_LENGHT = 500;
 /*************************************************************
  *************************************************************/
 
-type t_FormValues = { comment: string, rating: string };
+type t_FormValues = { comment: string, rating: number };
 
-const formValues: t_FormValues = { comment: '', rating: '' };
+const formValues: t_FormValues = { comment: '', rating: 0 };
 
 function isStringEmpty(s: string): boolean {
   const EMPTY_CHARS = [' ', '\n', '\t'];
@@ -69,7 +71,7 @@ export default function CommentModal({ visible, setVisible, commentsList }: i_Co
   const addReview = useCallback((values: t_FormValues) => {
     const newComment: t_Comment = {
       comment: values.comment.trim(),
-      rating: parseInt(values.rating),
+      rating: values.rating,
       date: getDate(),
       downvotes: 0,
       upvotes: 0,
@@ -98,7 +100,7 @@ export default function CommentModal({ visible, setVisible, commentsList }: i_Co
             addReview(values);
             setVisible(false);
           }}>
-          {({ handleChange, handleBlur, handleSubmit, values, touched, errors }) => (
+          {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, touched, errors }) => (
             <View style={styles.formContainer}>
               <TextInput
                 multiline
@@ -113,19 +115,11 @@ export default function CommentModal({ visible, setVisible, commentsList }: i_Co
               {(touched.comment && errors.comment) &&
                 <Text style={styles.errorText}>{errors.comment}</Text>
               }
-              <TextInput
-                style={[styles.textInput, styles.ratingInput]}
-                maxLength={1}
-                placeholder='Number (1-5)'
-                keyboardType='numeric'
-                onChangeText={handleChange('rating')}
-                onBlur={handleBlur('rating')}
-                value={values.rating}
-              />
-              {(touched.rating && errors.rating) &&
-                <Text style={styles.errorText}>{errors.rating}</Text>
-              }
-              <Button style={styles.submit} onPress={handleSubmit as (event: any) => void} text="Submit" />
+              <RatingInput
+                style={styles.ratingInput}
+                fieldValue={values.rating}
+                setFieldValue={(i) => setFieldValue('rating', i)} />
+              <Button style={styles.submit} onPress={handleSubmit as any} text="Submit" />
             </View>
           )}
         </Formik>
@@ -181,9 +175,9 @@ const getStyle = (colorTheme: t_ColorTheme) => {
       padding: 5,
     },
     commentInput: {
-      maxHeight: 200,
     },
     ratingInput: {
+      marginTop: 20,
     },
     errorText: {
       color: 'red',

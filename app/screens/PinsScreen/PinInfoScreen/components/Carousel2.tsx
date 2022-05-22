@@ -1,40 +1,32 @@
 // REACT
-import React, { JSXElementConstructor, useCallback, useContext, useReducer } from 'react';
-import { View, StyleSheet, FlatList, Image, Dimensions, SafeAreaView } from 'react-native';
+import React, { useCallback, useContext, useReducer } from 'react';
+import { View, StyleSheet, FlatList, Image, Dimensions } from 'react-native';
 // CUSTOM
 import { palette, ThemeContext, t_ColorTheme } from "../../../../constants/Colors";
-import { safeArea } from '../../../../utilities/StylesPattern';
-import { t_ImageInfo } from '../../typePinsScreen';
 import PointTab from './PointTab';
 
 const { width } = Dimensions.get('screen');
 
+type t_ImageInfo = { url: string, key: string, }
 
 interface i_Carousel {
   images: t_ImageInfo[],
-  last?: JSX.Element,
 }
-export default function Carousel({ images, last }: i_Carousel) {
+export default function Carousel({ images }: i_Carousel) {
 
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const styles = getStyle(colorTheme);
   const plt = palette[colorTheme];
 
-  const renderImage = useCallback(({ item, index }: { item: t_ImageInfo, index: number }) => (<>
+  const renderImage = useCallback(({ item }: { item: t_ImageInfo }) => (
     <Image
       source={{ uri: item.url }}
       style={styles.image}
     />
-    {(index === images.length - 1) && (
-      <SafeAreaView style={[styles.safeArea, styles.last]}>
-        {last}
-      </SafeAreaView>
-    )}
-  </>), []);
+  ), []);
 
   const tabReducer = useCallback((state: { currentTab: number }, action: { scrollX: number }) => {
-    const len = images.length + (last ? 1 : 0);
-    for (let i = 0; i < len; i++) {
+    for (let i = 0; i < images.length; i++) {
       const distance = Math.abs(action.scrollX - width * i); // distance(scroll, i page)
       if (distance < width * .5)
         return { currentTab: i }
@@ -55,14 +47,9 @@ export default function Carousel({ images, last }: i_Carousel) {
         onScroll={e => dispatch({ scrollX: e.nativeEvent.contentOffset.x })}
       />
       <View style={styles.tabBar}>
-        {last ?
-          images.concat({ key: '', url: '' }).map((e, i) => (
-            <PointTab focus={tab.currentTab === i} key={"PointTab" + i} />
-          )) :
-          images.map((e, i) => (
-            <PointTab focus={tab.currentTab === i} key={"PointTab" + i} />
-          ))
-        }
+        {images.map((e, i) => (
+          <PointTab focus={tab.currentTab === i} key={"PointTab" + i} />
+        ))}
       </View>
     </View>
   );
@@ -73,7 +60,6 @@ const getStyle = (colorTheme: t_ColorTheme) => {
   const plt = palette[colorTheme];
 
   return StyleSheet.create({
-    ...safeArea,
     container: {
       width,
       height: 350,
@@ -82,14 +68,6 @@ const getStyle = (colorTheme: t_ColorTheme) => {
       width,
       height: '100%',
       backgroundColor: plt.dark,
-    },
-    last: {
-      width,
-      height: '100%',
-      backgroundColor: plt.dominant,
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
     },
     tabBar: {
       // width: 100,

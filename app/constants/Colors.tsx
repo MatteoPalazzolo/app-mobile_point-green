@@ -1,6 +1,5 @@
-import { createContext, useState } from "react";
+import { createContext } from "react";
 
-// export type t_ColorMode = 'dark' | 'light' | 'auto' | null | undefined;
 export type t_ColorTheme = 'dark' | 'light';
 
 export const palette = {

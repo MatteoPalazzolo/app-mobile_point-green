@@ -1,5 +1,5 @@
 // REACT
-import { Entypo, FontAwesome } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 import React, { useContext, useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 // CUSTOM
@@ -8,17 +8,15 @@ import { palette, ThemeContext, t_ColorTheme } from "../../../../../constants/Co
 
 interface i_RatingStar {
   value: boolean,
-  starSize: number,
+  starSize?: number,
 }
-function RatingStar({ value, starSize }: i_RatingStar) {
+function RatingStar({ value, starSize = 45 }: i_RatingStar) {
 
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const plt = palette[colorTheme];
 
-  if (value)
-    return <Entypo name="star" size={starSize} color={plt.complementary} />
-  else
-    return <Entypo name="star-outlined" size={starSize} color={plt.accent} />
+  return <Entypo name={value ? "star" : "star-outlined"} size={starSize} color={value ? plt.complementary : plt.accent} />
+
 }
 
 
@@ -54,6 +52,6 @@ const getStyle = (colorTheme: t_ColorTheme) => {
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-evenly',
-    }
+    },
   });
 }

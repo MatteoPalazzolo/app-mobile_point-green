@@ -15,16 +15,16 @@ export default function NavRadialMenu({ navContainerRef }: i_NavRadialMenu) {
   const homeScreen = screens.find(e => e.label === "Home") as t_NavScreen;
   const toDisplayScreens = screens.filter(e => e.navbar) as t_NavScreen[];
 
-  const radius = 120;
-  const openTime = 300; //ms
+  const RADIUS = 120;
+  const OPEN_TIME = 300; //ms
 
   /* create an array containing the procedural generated target position for all buttons */
   const calcButtonsTargetPos = useCallback(() => (
     toDisplayScreens.map((b, i) => {
       const stepRad = Math.PI / (toDisplayScreens.length + 1);
       const currentAngle = stepRad * (i + 1);
-      const x: number = -Math.cos(currentAngle) * radius;
-      const y: number = -Math.sin(currentAngle) * radius;
+      const x: number = -Math.cos(currentAngle) * RADIUS;
+      const y: number = -Math.sin(currentAngle) * RADIUS;
       /*
       console.log("deg: ", stepRad * (180 / Math.PI));
       console.log("x: ", x, "y: ", y);
@@ -67,7 +67,7 @@ export default function NavRadialMenu({ navContainerRef }: i_NavRadialMenu) {
       {toDisplayScreens.map((b, i) => (
         <NavRadialButton
           funcRegister={btnAnimationRegister}
-          animationOptions={{ endPos: buttonEndCoords[i], radius: radius, openTime: openTime }}
+          animationOptions={{ endPos: buttonEndCoords[i], radius: RADIUS, openTime: OPEN_TIME }}
           screenInfo={toDisplayScreens[i]}
           navigation={navContainerRef}
           closeMenu={() => dispatchMenu({ type: 'close' })}
