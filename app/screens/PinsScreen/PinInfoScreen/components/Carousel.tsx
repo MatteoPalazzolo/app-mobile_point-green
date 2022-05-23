@@ -1,6 +1,7 @@
 // REACT
-import React, { JSXElementConstructor, useCallback, useContext, useReducer } from 'react';
-import { View, StyleSheet, FlatList, Image, Dimensions, SafeAreaView } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+import React, { useCallback, useContext, useReducer } from 'react';
+import { View, Text, StyleSheet, FlatList, Image, Dimensions, SafeAreaView } from 'react-native';
 // CUSTOM
 import { palette, ThemeContext, t_ColorTheme } from "../../../../constants/Colors";
 import { safeArea } from '../../../../utilities/StylesPattern';
@@ -12,28 +13,13 @@ const { width } = Dimensions.get('screen');
 
 interface i_Carousel {
   images: t_ImageInfo[],
-  last?: JSX.Element,
+  children?: JSX.Element,
 }
-export default function Carousel({ images, last }: i_Carousel) {
+export default function Carousel({ images, children }: i_Carousel) {
 
-  const colorTheme: t_ColorTheme = useContext(ThemeContext);
-  const styles = getStyle(colorTheme);
-  const plt = palette[colorTheme];
-
-  const renderImage = useCallback(({ item, index }: { item: t_ImageInfo, index: number }) => (<>
-    <Image
-      source={{ uri: item.url }}
-      style={styles.image}
-    />
-    {(index === images.length - 1) && (
-      <SafeAreaView style={[styles.safeArea, styles.last]}>
-        {last}
-      </SafeAreaView>
-    )}
-  </>), []);
 
   const tabReducer = useCallback((state: { currentTab: number }, action: { scrollX: number }) => {
-    const len = images.length + (last ? 1 : 0);
+    const len = images.length + (children ? 1 : 0);
     for (let i = 0; i < len; i++) {
       const distance = Math.abs(action.scrollX - width * i); // distance(scroll, i page)
       if (distance < width * .5)
@@ -42,6 +28,25 @@ export default function Carousel({ images, last }: i_Carousel) {
     return { currentTab: 0 }
   }, [images]);
   const [tab, dispatch] = useReducer(tabReducer, { currentTab: 0 }, undefined);
+
+
+  const colorTheme: t_ColorTheme = useContext(ThemeContext);
+  const styles = getStyle(colorTheme, tab.currentTab, images.length);
+  const plt = palette[colorTheme];
+
+
+  const renderImage = useCallback(({ item, index }: { item: t_ImageInfo, index: number }) => (<>
+    <Image
+      source={{ uri: item.url }}
+      style={styles.image}
+    />
+    {(index === images.length - 1) && (
+      <SafeAreaView style={[styles.safeArea, styles.last]}>
+        {children}
+      </SafeAreaView>
+    )}
+  </>), []);
+
 
   return (
     <View style={styles.container}>
@@ -55,14 +60,17 @@ export default function Carousel({ images, last }: i_Carousel) {
         onScroll={e => dispatch({ scrollX: e.nativeEvent.contentOffset.x })}
       />
       <View style={styles.tabBar}>
-        {last ?
-          images.concat({ key: '', url: '' }).map((e, i) => (
-            <PointTab focus={tab.currentTab === i} key={"PointTab" + i} />
-          )) :
-          images.map((e, i) => (
-            <PointTab focus={tab.currentTab === i} key={"PointTab" + i} />
-          ))
-        }
+        {images.map((e, i) => (
+          <PointTab focus={tab.currentTab === i} key={"PointTab" + i} />
+        ))}
+        {children && (<>
+          {/* <AntDesign name={tab.currentTab === images.length ? "pluscircle" : "pluscircleo"} size={14} color={plt.complementary} /> */}
+          <View style={styles.lastTabBg}>
+            <Text style={styles.lastTabFg}>+</Text>
+          </View>
+
+        </>
+        )}
       </View>
     </View>
   );
@@ -107,6 +115,21 @@ const getStyle = (colorTheme: t_ColorTheme) => {
       alignItems: 'center',
 
       paddingHorizontal: 8,
+    },
+    lastTabBg: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+
+      backgroundColor: false && tab === imagesLen ? plt.complementary : plt.dominant,
+      borderRadius: 100,
+      width: 12, height: 12,
+    },
+    lastTabFg: {
+      position: 'absolute',
+      transform: [{ translateY: -.8 }, { translateX: -.1 }],
+      color: false && tab === imagesLen ? plt.dominant : plt.complementary,
+      fontSize: 18,
     },
   });
 }
