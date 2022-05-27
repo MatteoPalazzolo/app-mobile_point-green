@@ -16,6 +16,7 @@ import { t_Navigation } from '../../../../navigation/typeNavigation';
 import TagsList from './components/TagBox';
 import RatingsBox from './components/RatingsBox';
 import { average } from '../../../../utilities/Math';
+import { FONT_SIZE_2 } from '../../../../constants/Styles';
 
 
 interface i_PinCard {
@@ -29,7 +30,7 @@ export default function PinCard({ cardInfo }: i_PinCard) {
 
   const [pressed, setPressed] = useState(false);
 
-  const { imagesData, title, distance, value, visits, tags, ratings } = cardInfo;
+  const { imagesData, title, distance, value, visits, tags, commentsData } = cardInfo;
 
   const onBtnPress = useCallback(() => navigation.navigate('PinInfo', { cardInfo }), []);
 
@@ -50,7 +51,7 @@ export default function PinCard({ cardInfo }: i_PinCard) {
             <IconInfoBox icon={<FontAwesome5 name="coins" size={24} />} value={prettifyUnits(value, '$')} />
           </View>
           <TagsList tags={tags} style={styles.tagsList} />
-          <RatingsBox value={Math.round(average(ratings))} starSize={45} style={styles.ratingsBox} />
+          <RatingsBox value={Math.round(average(commentsData.map(i => i.rating)))} starSize={45} style={styles.ratingsBox} />
         </View>
       </View>
     </TouchableOpacity>
@@ -59,9 +60,7 @@ export default function PinCard({ cardInfo }: i_PinCard) {
 
 const getStyle = (colorTheme: t_ColorTheme) => {
   const plt = palette[colorTheme];
-
   const borderRadius = 15;
-
   const cardShadow = {
     shadowColor: plt.dark,
     shadowOffset: { width: 0, height: 4 }, // IOS
@@ -69,7 +68,6 @@ const getStyle = (colorTheme: t_ColorTheme) => {
     shadowRadius: 4.65, // IOS
     elevation: 8, // ANDROID
   }
-
   return StyleSheet.create({
     card: {
       backgroundColor: 'white',
@@ -100,7 +98,7 @@ const getStyle = (colorTheme: t_ColorTheme) => {
       bottom: 15,
     },
     title: {
-      fontSize: 24,
+      fontSize: FONT_SIZE_2,
       textAlign: 'center',
       marginTop: 16,
       marginBottom: 15,

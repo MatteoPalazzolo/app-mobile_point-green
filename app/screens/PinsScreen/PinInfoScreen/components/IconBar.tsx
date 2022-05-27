@@ -1,10 +1,12 @@
 // REACT
-import { AntDesign, Entypo, FontAwesome5, Ionicons } from '@expo/vector-icons';
+import { AntDesign, Entypo, FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext, useState } from 'react';
-import { View, StyleSheet, Text, Touchable, TouchableOpacity, StatusBar, Platform, SafeAreaView, Share } from 'react-native';
+import { StyleSheet, TouchableOpacity, SafeAreaView, Share } from 'react-native';
 // CUSTOM
 import { palette, ThemeContext, t_ColorTheme } from "../../../../constants/Colors";
+import { safeArea } from '../../../../utilities/StylesPattern';
+
 
 const ICON_SIZE = 32;
 const ACTIVE_OPACITY = .5;
@@ -26,8 +28,8 @@ export default function IconBar({ style }: i_IconBar) {
   });
 
   return (
-    <SafeAreaView style={styles.container}>
-      <TouchableOpacity style={styles.close} onPress={() => navigation.goBack()}>
+    <SafeAreaView style={[safeArea, styles.container]}>
+      <TouchableOpacity style={[styles.close, style]} onPress={() => navigation.goBack()}>
         <AntDesign name="close" size={ICON_SIZE * 1.15} color={plt.dominant} />
       </TouchableOpacity>
       <TouchableOpacity activeOpacity={ACTIVE_OPACITY} style={styles.others} onPress={onShare}>
@@ -49,7 +51,6 @@ const getStyle = (colorTheme: t_ColorTheme, style?: {}) => {
     container: {
       width: '100%',
       position: 'absolute',
-      marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
       zIndex: 1,
       display: 'flex',
       flexDirection: 'row',

@@ -8,8 +8,8 @@ import * as Yup from 'yup'
 import { palette, ThemeContext, t_ColorTheme } from "../../../../constants/Colors";
 import Button from '../../../../components/Button';
 import { t_Comment } from '../../typePinsScreen';
-import { number } from 'yup/lib/locale';
 import RatingInput from './RatingInput';
+import { newCardComment } from '../../newPinsScreen';
 
 
 const MIN_COMMENT_LENGHT = 10;
@@ -19,7 +19,6 @@ const MAX_COMMENT_LENGHT = 500;
  *************************************************************/
 
 type t_FormValues = { comment: string, rating: number };
-
 const formValues: t_FormValues = { comment: '', rating: 0 };
 
 function isStringEmpty(s: string): boolean {
@@ -40,20 +39,6 @@ const reviewSchema = Yup.object({
     .test('1-5', 'value must be (1-5)', ((v: string) => (parseInt(v) >= 1 && parseInt(v) <= 5)) as any),
 });
 
-
-function getDate() {
-
-  const d = new Date();
-  let day = d.getDate().toString();
-  let month = d.getMonth().toString();
-  const year = d.getFullYear().toString();
-
-  day = day.length === 1 ? '0' + day : day;
-  month = month.length === 1 ? '0' + month : month;
-
-  return `${day}/${month}/${year}`; // UNSAFE
-}
-
 /*************************************************************
  *************************************************************/
 
@@ -69,15 +54,12 @@ export default function CommentModal({ visible, setVisible, commentsList }: i_Co
   const styles = getStyle(colorTheme);
 
   const addReview = useCallback((values: t_FormValues) => {
-    const newComment: t_Comment = {
+    const newComment = newCardComment({
       comment: values.comment.trim(),
       rating: values.rating,
-      date: getDate(),
-      downvotes: 0,
-      upvotes: 0,
       user: 'Me',
       icon: 'https://www.ansa.it/webimages/img_700/2017/8/20/6e8ad6debd75aca1e2dbf887d266a2b5.jpg',
-    }
+    });
     commentsList.push(newComment);
   }, []);
 
@@ -169,7 +151,8 @@ const getStyle = (colorTheme: t_ColorTheme) => {
       width: '90%',
     },
     textInput: {
-      borderColor: 'black',
+      textAlignVertical: 'bottom',
+      borderColor: '#555',
       borderBottomWidth: 1,
       marginTop: 16,
       padding: 5,

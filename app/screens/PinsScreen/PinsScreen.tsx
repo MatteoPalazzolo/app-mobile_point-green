@@ -29,7 +29,6 @@ export default function PinScreen({ }: i_PinsScreen) {
     for (let i = 0; i < TABS.length; i++) {
       const distance = Math.abs(action.scrollX - width * i); // distance(scroll, i page)
       if (distance < width * .5) {
-        console.log('PinTabs test 1');
         return { index: i, label: TABS[i] }
       }
     }
@@ -65,7 +64,7 @@ export default function PinScreen({ }: i_PinsScreen) {
   ), []);
 
   return (
-    <SafeAreaView style={[styles.safeArea]}>
+    <SafeAreaView style={safeArea}>
       <PinTabs
         tabs={TABS}
         tab={tab}
@@ -89,7 +88,6 @@ export default function PinScreen({ }: i_PinsScreen) {
 const getStyle = (colorTheme: t_ColorTheme) => {
   const plt = palette[colorTheme];
   return StyleSheet.create({
-    ...safeArea,
     tabs: {
       alignSelf: 'center',
       marginTop: 12,

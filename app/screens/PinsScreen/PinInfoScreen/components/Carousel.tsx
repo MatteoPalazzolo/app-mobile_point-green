@@ -31,7 +31,7 @@ export default function Carousel({ images, children }: i_Carousel) {
 
 
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
-  const styles = getStyle(colorTheme, tab.currentTab, images.length);
+  const styles = getStyle(colorTheme);
   const plt = palette[colorTheme];
 
 
@@ -40,8 +40,8 @@ export default function Carousel({ images, children }: i_Carousel) {
       source={{ uri: item.url }}
       style={styles.image}
     />
-    {(index === images.length - 1) && (
-      <SafeAreaView style={[styles.safeArea, styles.last]}>
+    {(index === images.length) && (
+      <SafeAreaView style={[safeArea, styles.last]}>
         {children}
       </SafeAreaView>
     )}
@@ -63,14 +63,7 @@ export default function Carousel({ images, children }: i_Carousel) {
         {images.map((e, i) => (
           <PointTab focus={tab.currentTab === i} key={"PointTab" + i} />
         ))}
-        {children && (<>
-          {/* <AntDesign name={tab.currentTab === images.length ? "pluscircle" : "pluscircleo"} size={14} color={plt.complementary} /> */}
-          <View style={styles.lastTabBg}>
-            <Text style={styles.lastTabFg}>+</Text>
-          </View>
-
-        </>
-        )}
+        {children && (<Text style={styles.lastTabFg}>+</Text>)}
       </View>
     </View>
   );
@@ -81,7 +74,6 @@ const getStyle = (colorTheme: t_ColorTheme) => {
   const plt = palette[colorTheme];
 
   return StyleSheet.create({
-    ...safeArea,
     container: {
       width,
       height: 350,
@@ -116,19 +108,10 @@ const getStyle = (colorTheme: t_ColorTheme) => {
 
       paddingHorizontal: 8,
     },
-    lastTabBg: {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-
-      backgroundColor: false && tab === imagesLen ? plt.complementary : plt.dominant,
-      borderRadius: 100,
-      width: 12, height: 12,
-    },
     lastTabFg: {
-      position: 'absolute',
+      marginHorizontal: 3,
       transform: [{ translateY: -.8 }, { translateX: -.1 }],
-      color: false && tab === imagesLen ? plt.dominant : plt.complementary,
+      color: plt.complementary,
       fontSize: 18,
     },
   });

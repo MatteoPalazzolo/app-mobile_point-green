@@ -1,14 +1,17 @@
 // REACT
+import { AntDesign } from '@expo/vector-icons';
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ViewStyle, Button, TouchableOpacity } from 'react-native';
 // CUSTOM
 import { palette, ThemeContext, t_ColorTheme } from "../../../../../constants/Colors";
+import { t_OnPress } from '../../../../../constants/Types';
 
+const ACTIVE_OPACITY = .6;
 
 interface i_TagBox {
   value: string,
 }
-function TagBox({ value }: i_TagBox) {
+export function TagBox({ value }: i_TagBox) {
 
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const styles = getStyle(colorTheme);
@@ -24,9 +27,11 @@ function TagBox({ value }: i_TagBox) {
 
 interface i_TagsList {
   tags: string[],
-  style: {},
+
+  style?: ViewStyle,
+  onAddPress?: t_OnPress;
 }
-export default function TagsList({ tags, style }: i_TagsList) {
+export default function TagsList({ tags, style, onAddPress }: i_TagsList) {
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const styles = getStyle(colorTheme);
   const plt = palette[colorTheme];
@@ -36,6 +41,13 @@ export default function TagsList({ tags, style }: i_TagsList) {
       {tags.slice(0, 5).map((e, i) => (
         <TagBox value={e} key={i} />
       ))}
+      {onAddPress && (
+        <TouchableOpacity onPress={onAddPress} activeOpacity={ACTIVE_OPACITY}>
+          <View style={[styles.tagBox, { aspectRatio: 1 }]}>
+            <AntDesign name="plus" size={28} color={plt.complementary} />
+          </View>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -57,7 +69,7 @@ const getStyle = (colorTheme: t_ColorTheme) => {
       margin: 3,
       height: 38,
       borderRadius: 100,
-      borderWidth: 3,
+      borderWidth: 2, // MAYBE 3
       borderColor: plt.complementary,
       display: 'flex',
       justifyContent: 'center',

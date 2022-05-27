@@ -51,7 +51,6 @@ const rawData: t_PinInfo[] = [
     visits: 400,
     value: 400,
     tags: ['boring', 'scary', 'morning', 'this must be quite long as test', 'nice planks', ''],
-    ratings: [3, 5, 1, 2, 2, 2, 2],
     commentsData: [
       {
         user: 'Giorgio',

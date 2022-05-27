@@ -8,7 +8,6 @@ import Button from '../../../components/Button';
 import { palette, ThemeContext, t_ColorTheme } from "../../../constants/Colors";
 import { t_RootStackParamList } from '../../../navigation/typeNavigation';
 import { prettifyDistance, prettifyUnits } from '../../../utilities/PrettifyData';
-import { safeArea } from '../../../utilities/StylesPattern';
 import IconInfoBox from '../components/PinCard/components/IconInfoBox';
 import RatingsBox from '../components/PinCard/components/RatingsBox';
 import TagsList from '../components/PinCard/components/TagBox';
@@ -45,7 +44,7 @@ export default function PinInfoScreen({ route, navigation }: t_PinInfoScreen) {
         <IconInfoBox icon={<FontAwesome5 name="coins" size={24} />} value={prettifyUnits(info.value, '$')} />
       </View>
       <TagsList tags={info.tags} style={styles.tagsList} />
-      <RatingsBox value={Math.floor(average(info.ratings))} starSize={45} style={styles.ratingsBox} />
+      <RatingsBox value={Math.round(average(info.commentsData.map(i => i.rating)))} starSize={45} style={styles.ratingsBox} />
       <Separator style={styles.separator}>Comments</Separator>
       <Button text='ADD COMMENT' fontSize={18} onPress={() => setVisible(true)} style={styles.addComment} />
       <View style={styles.commentsBox}>
@@ -61,7 +60,6 @@ export default function PinInfoScreen({ route, navigation }: t_PinInfoScreen) {
 const getStyle = (colorTheme: t_ColorTheme) => {
   const plt = palette[colorTheme];
   return StyleSheet.create({
-    ...safeArea,
     container: {},
     title: {
       marginTop: 16,
