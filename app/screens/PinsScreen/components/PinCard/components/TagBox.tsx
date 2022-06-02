@@ -27,23 +27,23 @@ export function TagBox({ value }: i_TagBox) {
 
 interface i_TagsList {
   tags: string[],
-
   style?: ViewStyle,
-  onAddPress?: t_OnPress;
+  inputMode?: boolean,
+  onAddPress?: t_OnPress,
 }
-export default function TagsList({ tags, style, onAddPress }: i_TagsList) {
+export default function TagsList({ tags, style, inputMode, onAddPress }: i_TagsList) {
+
   const colorTheme: t_ColorTheme = useContext(ThemeContext);
   const styles = getStyle(colorTheme);
   const plt = palette[colorTheme];
 
+  tags = inputMode ? tags : tags.slice(0, 5);
   return (
     <View style={[styles.tagsList, style]}>
-      {tags.slice(0, 5).map((e, i) => (
-        <TagBox value={e} key={i} />
-      ))}
-      {onAddPress && (
+      {tags.map((e, i) => <TagBox value={e} key={`tag${i}`} />)}
+      {inputMode && (
         <TouchableOpacity onPress={onAddPress} activeOpacity={ACTIVE_OPACITY}>
-          <View style={[styles.tagBox, { aspectRatio: 1 }]}>
+          <View style={[styles.tagBox, { width: 38 }]}>
             <AntDesign name="plus" size={28} color={plt.complementary} />
           </View>
         </TouchableOpacity>

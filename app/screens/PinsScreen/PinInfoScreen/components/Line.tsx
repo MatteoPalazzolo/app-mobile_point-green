@@ -1,12 +1,12 @@
 // REACT
 import React, { useContext } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, ViewStyle } from 'react-native';
 // CUSTOM
 import { palette, ThemeContext, t_ColorTheme } from "../../../../constants/Colors";
 
 
 interface i_Line {
-  style?: {},
+  style?: ViewStyle,
 }
 export default function Line({ style }: i_Line) {
 

@@ -1,10 +1,10 @@
 // REACT
-import { AntDesign } from '@expo/vector-icons';
 import React, { useCallback, useContext, useReducer } from 'react';
 import { View, Text, StyleSheet, FlatList, Image, Dimensions, SafeAreaView } from 'react-native';
 // CUSTOM
 import { palette, ThemeContext, t_ColorTheme } from "../../../../constants/Colors";
 import { safeArea } from '../../../../utilities/StylesPattern';
+import { IMAGE_ASPECT_RATIO } from '../../constPinsScreen';
 import { t_ImageInfo } from '../../typePinsScreen';
 import PointTab from './PointTab';
 
@@ -35,23 +35,23 @@ export default function Carousel({ images, children }: i_Carousel) {
   const plt = palette[colorTheme];
 
 
-  const renderImage = useCallback(({ item, index }: { item: t_ImageInfo, index: number }) => (<>
-    <Image
-      source={{ uri: item.url }}
-      style={styles.image}
-    />
-    {(index === images.length) && (
-      <SafeAreaView style={[safeArea, styles.last]}>
-        {children}
-      </SafeAreaView>
-    )}
-  </>), []);
+  const renderImage = useCallback(({ item, index }: { item: t_ImageInfo, index: number }) => (
+    <Image source={{ uri: item.url }} style={styles.image} />
+  ), []);
 
 
   return (
     <View style={styles.container}>
       <FlatList
         data={images}
+        ListFooterComponent={
+          children ?
+            <SafeAreaView style={[safeArea, styles.last]}>
+              {children}
+            </SafeAreaView>
+            :
+            undefined
+        }
         renderItem={renderImage}
         keyExtractor={item => item.key}
         horizontal
@@ -76,7 +76,7 @@ const getStyle = (colorTheme: t_ColorTheme) => {
   return StyleSheet.create({
     container: {
       width,
-      height: 350,
+      aspectRatio: IMAGE_ASPECT_RATIO[0] / IMAGE_ASPECT_RATIO[1],
     },
     image: {
       width,

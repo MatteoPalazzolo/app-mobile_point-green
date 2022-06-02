@@ -1,8 +1,8 @@
 // REACT
 import React, { useCallback, useContext, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, TextInput } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, TextInput, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { AntDesign, MaterialIcons } from '@expo/vector-icons';
+import { AntDesign, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 // CUSTOM
 import { palette, ThemeContext, t_ColorTheme } from "../../../constants/Colors";
@@ -14,6 +14,8 @@ import Button from '../../../components/Button';
 import { FONT_SIZE_1, FONT_SIZE_3 } from '../../../constants/Styles';
 import Separator from '../PinInfoScreen/components/Separator';
 import TagsList, { TagBox } from '../components/PinCard/components/TagBox';
+import { IMAGE_ASPECT_RATIO } from '../constPinsScreen';
+import AddTagModal from './components/AddTagModal';
 
 
 const ICON_SIZE = 32;
@@ -43,14 +45,22 @@ export default function PinCreationScreen({ }: i_PinCreationScreen) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: IMAGE_ASPECT_RATIO,
       quality: 1,
     });
     if (!result.cancelled) {
-      push({ url: result.uri, key: Math.random() * 100000 }); //TODO UNSAFE
+      push({ url: result.uri, key: result.uri.slice(-14, -4) }); //TODO UNSAFE
     } else {
       console.log(result);
     }
+  }, []);
+
+
+  const [tagModal, setTagModal] = useState(false);
+  const AddTag = useCallback((arrayHelpers: ArrayHelpers) => {
+    setTagModal(true);
+    setTagModal(false);
+    return () => arrayHelpers.push('ciao');
   }, []);
 
 
@@ -65,7 +75,7 @@ export default function PinCreationScreen({ }: i_PinCreationScreen) {
     /* commentsList.push(newComment); */
   }, []);
 
-  return (
+  return (<>
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <SafeAreaView style={[safeArea, styles.close]}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -122,18 +132,22 @@ export default function PinCreationScreen({ }: i_PinCreationScreen) {
             <FieldArray
               name='tags'
               render={(arrayHelpers: ArrayHelpers) => (<>
-                <View style={styles.tagsContainer}>
-                  <TagsList tags={values.tags} onAddPress={() => arrayHelpers.push('ciao')} />
-                </View>
+                <AddTagModal visible={tagModal} setVisible={setTagModal} arrayHelpers={arrayHelpers} />
+                <TagsList inputMode style={styles.tagsContainer} tags={values.tags} onAddPress={() => setTagModal(true)} />
               </>)} />
 
-            <Button style={styles.submit} onPress={handleSubmit as any} text="500" />
+            <Button
+              style={styles.submit}
+              onPress={handleSubmit as any}
+              text="500"
+              fontSize={25}
+              Icon={<FontAwesome5 style={styles.coinIcon} name="coins" size={26} color={plt.dominant} />} />
           </>
         )}
       </Formik>
 
     </ScrollView >
-  );
+  </>);
 }
 
 const getStyle = (colorTheme: t_ColorTheme) => {
@@ -170,15 +184,18 @@ const getStyle = (colorTheme: t_ColorTheme) => {
     },
     tagsContainer: {
       marginTop: 15,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
     },
     submit: {
       marginTop: 30,
+      marginBottom: 20,
+      width: 200,
+      alignSelf: 'center',
     },
     errorText: {
       color: plt.danger,
-    }
+    },
+    coinIcon: {
+      marginRight: 0,
+    },
   });
 }

@@ -25,12 +25,12 @@ export default function Navigation({ }: i_Navigation): JSX.Element {
         <stack.Navigator
           screenOptions={screenOptions}>
           {screens.map((s, i) =>
-          (<stack.Screen
-            name={s.label}
-            component={s.screen.type}
-            initialParams={s.screen.props}
-            options={s.options}
-            key={i} />)
+            <stack.Screen
+              name={s.label}
+              component={s.screen.type}
+              initialParams={s.screen.props}
+              options={s.options}
+              key={i} />
           )}
         </stack.Navigator>
       </NavigationContainer>
