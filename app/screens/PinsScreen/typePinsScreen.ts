@@ -51,3 +51,5 @@ export type t_imagesData = {
 export type t_Tabs = "feed" | "mine" | "history";
 
 export type t_ImageInfo = { url: string, key: string, }
+
+export type t_TagInfo = { name: string, id: string | number };

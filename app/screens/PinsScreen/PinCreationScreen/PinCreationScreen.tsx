@@ -16,6 +16,7 @@ import Separator from '../PinInfoScreen/components/Separator';
 import TagsList, { TagBox } from '../components/PinCard/components/TagBox';
 import { IMAGE_ASPECT_RATIO } from '../constPinsScreen';
 import AddTagModal from './components/AddTagModal';
+import CloseIcon from './components/CloseIcon';
 
 
 const ICON_SIZE = 32;
@@ -77,12 +78,7 @@ export default function PinCreationScreen({ }: i_PinCreationScreen) {
 
   return (<>
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <SafeAreaView style={[safeArea, styles.close]}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <AntDesign name="close" size={ICON_SIZE * 1.15} color={plt.dominant} />
-        </TouchableOpacity>
-      </SafeAreaView>
-
+      <CloseIcon />
       <Formik
         initialValues={formValues}
         /* validationSchema={reviewSchema} */
