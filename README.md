@@ -1,6 +1,5 @@
 ## Intro
 - parte del progetto Point Green
-- altri partecipanti: Domenico Giubellini, Ruben Cuttica, Tommaso Giachetto, Pietro Sapia
 - app mobile scritta in React Native
 - il progetto è un prototipo di UI, non presenta un backend 
 
